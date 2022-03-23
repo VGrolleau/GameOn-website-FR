@@ -1,5 +1,11 @@
 @import url("./normalize/normalize.css");
-@import url("./responsive/landing-page/landing-mobile.css");
-@import url("./responsive/landing-page/landing-tablet.css");
-@import url("./responsive/landing-page/landing-desktop.css");
+@import url("./landing/landing.css");
 @import url("./modal/modal.css");
+@font-face {
+    font-family: "DM Sans";
+    src: url("../assets/fonts/DM_Sans/DMSans-Bold.ttf") format("truetype"), url("../assets/fonts/DM_Sans/DMSans-BoldItalic.ttf") format("truetype"), url("../assets/fonts/DM_Sans/DMSans-Italic.ttf") format("truetype"), url("../assets/fonts/DM_Sans/DMSans-Medium.ttf") format("truetype"), url("../assets/fonts/DM_Sans/DMSans-MediumItalic.ttf") format("truetype"), url("../assets/fonts/DM_Sans/DMSans-Regular.ttf") format("truetype");
+}
+
+* {
+    font-family: "DM Sans", Arial, Helvetica, sans-serif;
+}
