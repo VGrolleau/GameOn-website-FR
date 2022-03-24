@@ -9,6 +9,10 @@ a {
     color: inherit;
 }
 
+p {
+    margin: 0;
+}
+
 
 /* body {
     margin: 0;
@@ -150,6 +154,12 @@ main {
     background-color: rgb(254, 20, 47);
     border-radius: 8px;
     font-size: 1.8em;
+    transition: background-color .3s ease-in;
+}
+
+.btn:hover {
+    background-color: #3876ac;
+    transition: background-color .3s ease-in;
 }
 
 
@@ -278,6 +288,18 @@ main {
 /* .modal-btn:hover {
     background: #3876ac;
 } */
+
+
+/*** FOOTER ***/
+
+footer {
+    padding: 65px 40px;
+}
+
+.copyright {
+    color: rgb(254, 20, 47);
+    font-size: 1.2em;
+}
 
 
 /* .copyrights {
