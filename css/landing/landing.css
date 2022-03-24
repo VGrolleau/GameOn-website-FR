@@ -37,7 +37,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 50px;
+    padding: 50px 200px;
 }
 
 header img {
@@ -58,7 +58,7 @@ nav a {
 
 nav a:hover,
 nav a.active {
-    background-color: #ff0000;
+    background-color: rgb(254, 20, 47);
     color: #ffffff;
     border-radius: 8px;
     transition: color .3s ease-in, background-color .3s ease-in;
@@ -114,6 +114,43 @@ nav a.active {
 
 
 /*** MAIN ***/
+
+main {
+    margin: 50px 250px;
+    padding: 50px 50px 85px;
+    /* height: ; */
+    background: rgba(35, 35, 35, 1) no-repeat right/55% url("../../assets/img/bg_img.jpg");
+    /* background: center / contain no-repeat url("../../assets/img/bg_img.jpg"), rgba(35, 35, 35, 1); */
+    border-radius: 8px;
+    color: #fff;
+    box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.25);
+}
+
+
+/* .hero-content {
+    margin-bottom: 20px;
+} */
+
+.hero-headline {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 7.25em;
+    font-weight: normal;
+}
+
+.hero-text {
+    margin: 73px 0;
+    font-size: 1.75em;
+    max-width: calc(40% - 25px);
+}
+
+.btn {
+    padding: 15px 30px;
+    background-color: rgb(254, 20, 47);
+    border-radius: 8px;
+    font-size: 1.8em;
+}
 
 
 /* main {
