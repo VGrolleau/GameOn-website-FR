@@ -4,6 +4,11 @@
 
 /*** LANDING PAGE ***/
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 
 /* body {
     margin: 0;
@@ -32,6 +37,31 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 50px;
+}
+
+header img {
+    margin-left: 50px;
+}
+
+nav {
+    width: 50%;
+    display: flex;
+    justify-content: right;
+}
+
+nav a {
+    margin: 10px;
+    padding: 10px;
+    font-size: 1.2em;
+}
+
+nav a:hover,
+nav a.active {
+    background-color: #ff0000;
+    color: #ffffff;
+    border-radius: 8px;
+    transition: color .3s ease-in, background-color .3s ease-in;
 }
 
 
@@ -43,9 +73,10 @@ header {
 
 /* .header-logo {
     float: left;
-}
+} */
 
-.main-navbar {
+
+/* .main-navbar {
     float: right;
 } */
 
@@ -80,6 +111,9 @@ header {
 /* .topnav .icon {
     display: none;
 } */
+
+
+/*** MAIN ***/
 
 
 /* main {
