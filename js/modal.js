@@ -8,7 +8,8 @@ function editNav() {
 }
 
 // DOM Elements
-const modalbg = document.querySelector(".bground");
+// const modalbg = document.querySelector(".bground");
+const modalbg = document.querySelector(".modal-bg");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 
@@ -17,5 +18,6 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // launch modal form
 function launchModal() {
-    modalbg.style.display = "block";
+    // modalbg.style.display = "block";
+    modalbg.style.display = "flex";
 }
