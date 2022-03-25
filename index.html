@@ -7,7 +7,7 @@
     <title>GameOn - Accueil</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                                                                                                                                                                                                                                                                    <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet" /> -->
+                                                                                                                                                                                                                                                                                                        <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet" /> -->
 </head>
 
 <body>
@@ -19,8 +19,8 @@
             <a href="#">Contact</a>
             <a href="#">Évènements passés</a>
             <!-- <a href="javascript:void(0);" class="icon" onclick="editNav()">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="fa fa-bars"></i>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </a> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="fa fa-bars"></i>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </a> -->
         </nav>
     </header>
 
@@ -38,8 +38,8 @@
 
         <!-- </div> -->
         <!-- <div class="hero-img">
-                                                                                                                                                                                                                                                                                                                                                                                                                    <img src="assets/img/bg_img.jpg" alt="Image joueuse console" />
-                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <img src="assets/img/bg_img.jpg" alt="Image joueuse console" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div> -->
         <!-- </div> -->
         <!-- <aside class="bground" aria-hidden="true"> -->
         <aside class="modal-bg" aria-hidden="true">
@@ -73,56 +73,68 @@
                     </div>
 
                     <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
-                    <div class="formData">
-                        <input class="checkbox-input" type="radio" id="location1" name="location" value="New York" />
-                        <label class="checkbox-label" for="location1">
-                                <span class="checkbox-icon"></span>
-                                New York</label>
+                    <div class="formData formRadio">
+                        <div>
+                            <input class="radio-input" type="radio" id="location1" name="location" value="New York" />
+                            <label class="radio-label" for="location1">
+                                    <!-- <span class="checkbox-icon"></span> -->
+                                    New York</label>
+                        </div>
 
-                        <input class="checkbox-input" type="radio" id="location2" name="location" value="San Francisco" />
-                        <label class="checkbox-label" for="location2">
-                                <span class="checkbox-icon"></span>
-                                San Francisco</label>
+                        <div>
+                            <input class="radio-input" type="radio" id="location2" name="location" value="San Francisco" />
+                            <label class="radio-label" for="location2">
+                                    <!-- <span class="checkbox-icon"></span> -->
+                                    San Francisco</label>
+                        </div>
 
-                        <input class="checkbox-input" type="radio" id="location3" name="location" value="Seattle" />
-                        <label class="checkbox-label" for="location3">
-                                <span class="checkbox-icon"></span>
-                                Seattle</label>
+                        <div>
+                            <input class="radio-input" type="radio" id="location3" name="location" value="Seattle" />
+                            <label class="radio-label" for="location3">
+                                    <!-- <span class="checkbox-icon"></span> -->
+                                    Seattle</label>
+                        </div>
 
-                        <input class="checkbox-input" type="radio" id="location4" name="location" value="Chicago" />
-                        <label class="checkbox-label" for="location4">
-                                <span class="checkbox-icon"></span>
-                                Chicago</label>
+                        <div>
+                            <input class="radio-input" type="radio" id="location4" name="location" value="Chicago" />
+                            <label class="radio-label" for="location4">
+                                    <!-- <span class="checkbox-icon"></span> -->
+                                    Chicago</label>
+                        </div>
 
-                        <input class="checkbox-input" type="radio" id="location5" name="location" value="Boston" />
-                        <label class="checkbox-label" for="location5">
-                                <span class="checkbox-icon"></span>
-                                Boston</label>
+                        <div>
+                            <input class="radio-input" type="radio" id="location5" name="location" value="Boston" />
+                            <label class="radio-label" for="location5">
+                                    <!-- <span class="checkbox-icon"></span> -->
+                                    Boston</label>
+                        </div>
 
-                        <input class="checkbox-input" type="radio" id="location6" name="location" value="Portland" />
-                        <label class="checkbox-label" for="location6">
-                                <span class="checkbox-icon"></span>
-                                Portland</label>
+                        <div>
+                            <input class="radio-input" type="radio" id="location6" name="location" value="Portland" />
+                            <label class="radio-label" for="location6">
+                                    <!-- <span class="checkbox-icon"></span> -->
+                                    Portland</label>
+                        </div>
                     </div>
 
-                    <div class="formData">
+                    <div class="formData formCheckbox">
                         <div>
                             <input class="checkbox-input" type="checkbox" id="checkbox1" checked/>
-                            <label class="checkbox2-label" for="checkbox1" required>
-                                    <span class="checkbox-icon"></span>
+                            <label class="checkbox-label" for="checkbox1" required>
+                                    <!-- <span class="checkbox-icon"></span> -->
                                     J'ai lu et accepte les conditions d'utilisation.
                                 </label>
                         </div>
 
                         <div>
                             <input class="checkbox-input" type="checkbox" id="checkbox2" />
-                            <label class="checkbox2-label" for="checkbox2">
-                                    <span class="checkbox-icon"></span>
+                            <label class="checkbox-label" for="checkbox2">
+                                    <!-- <span class="checkbox-icon"></span> -->
                                     Je souhaite être prévenu des prochains évènements.
                                 </label>
                         </div>
                     </div>
-                    <input class="btn-submit" type="submit" class="button" value="C'est parti" />
+                    <input class="btn btn-submit" type="submit" class="button" value="C'est parti" />
                 </form>
             </div>
         </aside>
