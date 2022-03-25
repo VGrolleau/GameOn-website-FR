@@ -196,6 +196,14 @@ input {
     font-size: 1.1em;
 }
 
+.btn-close {
+    width: fit-content;
+    display: block;
+    margin: 20px auto 0;
+    padding: 15px 60px;
+    font-size: 1.1em;
+}
+
 
 /* .bground {
     display: none;
