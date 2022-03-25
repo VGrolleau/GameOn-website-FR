@@ -63,8 +63,7 @@
     transform: scale(0.7);
 }
 
-
-/* .close:before,
+.close:before,
 .close:after {
     position: absolute;
     left: 15px;
@@ -72,17 +71,15 @@
     height: 33px;
     width: 3px;
     background-color: #fff;
-} */
+}
 
-
-/* .close:before {
+.close:before {
     transform: rotate(45deg);
-} */
+}
 
-
-/* .close:after {
+.close:after {
     transform: rotate(-45deg);
-} */
+}
 
 .modal-body {
     margin: 20px 0;
@@ -91,9 +88,11 @@
 .formData {
     display: flex;
     flex-direction: column;
+    margin: 10px 20px;
 }
 
 .formRadio {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
@@ -102,11 +101,22 @@
 .formCheckbox div {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .formRadio div {
     width: fit-content;
     margin-right: 20px;
+}
+
+label,
+.text-label {
+    margin-bottom: 10px;
+}
+
+.radio-label,
+.checkbox-label {
+    margin: 0 0 0 5px;
 }
 
 input {
@@ -120,13 +130,70 @@ input {
 
 .radio-input,
 .checkbox-input {
-    width: fit-content;
-    height: initial;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background-clip: content-box;
 }
 
-.radio-label,
-.checkbox-label {
-    margin-left: 5px;
+.radio-input {
+    border-radius: 50%;
+    padding: 3px;
+}
+
+.checkbox-input {
+    position: relative;
+    border: none;
+    background-color: #ccc;
+}
+
+.radio-input:checked,
+.checkbox-input:checked {
+    background-color: #279e7a;
+}
+
+.radio-input:checked {
+    border-color: #279e7a;
+}
+
+.checkbox-input::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 25%;
+    width: 3px;
+    background-color: #ccc;
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+}
+
+.checkbox-input::after {
+    position: absolute;
+    left: 1px;
+    bottom: 25%;
+    height: 3px;
+    width: 50%;
+    background-color: #ccc;
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+}
+
+
+/* .checkbox-input {
+    width: 25px;
+    height: 25px;
+    accent-color: #279e7a;
+    border: none;
+} */
+
+.btn-submit {
+    width: fit-content;
+    display: block;
+    margin: 20px auto 0;
+    padding: 0 40px;
+    font-size: 1.1em;
 }
 
 
