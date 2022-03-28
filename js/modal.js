@@ -26,6 +26,7 @@ closeBtn.addEventListener('click', closeModal);
 function launchModal() {
     // modalbg.style.display = "block";
     modalbg.style.display = "flex";
+    modalBody.innerHTML = "";
     modalBody.appendChild(firstFormDataDiv);
     modalBody.appendChild(lastFormDataDiv);
     modalBody.appendChild(emailFormDataDiv);
@@ -34,7 +35,7 @@ function launchModal() {
     modalBody.appendChild(radioFormDataDiv);
     modalBody.appendChild(checkboxFormDataDiv);
     modalBody.appendChild(submitInput);
-    modalBody.removeChild(modalConfirmationDiv);
+    // modalBody.removeChild(modalConfirmationDiv);
 }
 
 // function close
