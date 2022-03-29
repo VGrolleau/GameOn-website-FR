@@ -1,5 +1,5 @@
-import "./modules/modal-form.js";
-import "./modules/Validator.js";
+// import "./modules/modal-form.js";
+// import "./modules/Validator.js";
 
 function editNav() {
     var x = document.getElementById("myTopnav");
@@ -20,7 +20,7 @@ const modalWrapper = document.querySelector(".modal-wrapper");
 const modalBody = document.querySelector(".modal-body");
 
 // launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+// modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 // close modal event
 closeBtn.addEventListener('click', closeModal);
@@ -29,36 +29,21 @@ closeBtn.addEventListener('click', closeModal);
 function launchModal() {
     // modalbg.style.display = "block";
     modalbg.style.display = "flex";
-    modalBody.innerHTML = "";
-    modalBody.appendChild(firstFormDataDiv);
-    modalBody.appendChild(lastFormDataDiv);
-    modalBody.appendChild(emailFormDataDiv);
-    modalBody.appendChild(birthFormDataDiv);
-    modalBody.appendChild(participationFormDataDiv);
-    modalBody.appendChild(radioFormDataDiv);
-    modalBody.appendChild(checkboxFormDataDiv);
-    modalBody.appendChild(submitInput);
+    // modalBody.innerHTML = "";
+    // modalBody.appendChild(firstFormDataDiv);
+    // modalBody.appendChild(lastFormDataDiv);
+    // modalBody.appendChild(emailFormDataDiv);
+    // modalBody.appendChild(birthFormDataDiv);
+    // modalBody.appendChild(participationFormDataDiv);
+    // modalBody.appendChild(radioFormDataDiv);
+    // modalBody.appendChild(checkboxFormDataDiv);
+    // modalBody.appendChild(submitInput);
     // modalBody.removeChild(modalConfirmationDiv);
 }
 
 // function close
 function closeModal() {
     modalbg.style.display = "none";
-}
-
-// function createConfirmationDiv
-function createConfirmationDiv() {
-    modalBody.removeChild(firstFormDataDiv);
-    modalBody.removeChild(lastFormDataDiv);
-    modalBody.removeChild(emailFormDataDiv);
-    modalBody.removeChild(birthFormDataDiv);
-    modalBody.removeChild(participationFormDataDiv);
-    modalBody.removeChild(radioFormDataDiv);
-    modalBody.removeChild(checkboxFormDataDiv);
-    modalBody.removeChild(submitInput);
-    let modalConfirmationDiv = createDiv();
-    modalConfirmationDiv.classList.add("modal-confirmation");
-    modalBody.appendChild(modalConfirmationDiv);
 }
 
 // function validate
@@ -73,18 +58,33 @@ function validate(event) {
     addConfirmationContent(modalBody);
 }
 
-// function addConfirmationContent
-function addConfirmationContent(container) {
-    let confirmationText = document.createElement("h2");
-    confirmationText.innerText = "Merci pour votre inscription";
-    container.appendChild(confirmationText);
-
-    let closeBtnConfirmation = document.createElement("button");
-    closeBtnConfirmation.innerText = "Fermer";
-    closeBtnConfirmation.classList.add("btn", "btn-close");
-    container.appendChild(closeBtnConfirmation);
-    closeBtnConfirmation.addEventListener('click', closeModal);
+// function createConfirmationDiv
+function createConfirmationDiv() {
+    // modalBody.removeChild(firstFormDataDiv);
+    // modalBody.removeChild(lastFormDataDiv);
+    // modalBody.removeChild(emailFormDataDiv);
+    // modalBody.removeChild(birthFormDataDiv);
+    // modalBody.removeChild(participationFormDataDiv);
+    // modalBody.removeChild(radioFormDataDiv);
+    // modalBody.removeChild(checkboxFormDataDiv);
+    // modalBody.removeChild(submitInput);
+    // let modalConfirmationDiv = createDiv();
+    // modalConfirmationDiv.classList.add("modal-confirmation");
+    // modalBody.appendChild(modalConfirmationDiv);
 }
+
+// function addConfirmationContent
+// function addConfirmationContent(container) {
+//     let confirmationText = document.createElement("h2");
+//     confirmationText.innerText = "Merci pour votre inscription";
+//     container.appendChild(confirmationText);
+
+//     let closeBtnConfirmation = document.createElement("button");
+//     closeBtnConfirmation.innerText = "Fermer";
+//     closeBtnConfirmation.classList.add("btn", "btn-close");
+//     container.appendChild(closeBtnConfirmation);
+//     closeBtnConfirmation.addEventListener('click', closeModal);
+// }
 
 /*** CREATION FORM BASE ***/
 
