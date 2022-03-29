@@ -57,7 +57,6 @@ function validate(event) {
 
     // createConfirmationDiv();
     // modalBody.appendChild(modalConfirmationDiv);
-
     // const modalConfirmation = document.querySelector(".modal-confirmation");
     // addConfirmationContent(modalConfirmation);
     // addConfirmationContent(modalBody);
