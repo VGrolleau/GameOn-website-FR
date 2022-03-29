@@ -18,6 +18,7 @@ const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelector(".close");
 const modalWrapper = document.querySelector(".modal-wrapper");
 const modalBody = document.querySelector(".modal-body");
+const confirmationContent = document.querySelector(".confirmation-content");
 
 // launch modal event
 // modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -29,6 +30,8 @@ closeBtn.addEventListener('click', closeModal);
 function launchModal() {
     // modalbg.style.display = "block";
     modalbg.style.display = "flex";
+    modalBody.style.display = "inline";
+    confirmationContent.style.display = "none";
     // modalBody.innerHTML = "";
     // modalBody.appendChild(firstFormDataDiv);
     // modalBody.appendChild(lastFormDataDiv);
@@ -49,29 +52,31 @@ function closeModal() {
 // function validate
 function validate(event) {
     event.preventDefault();
+    modalBody.style.display = "none";
+    confirmationContent.style.display = "inline";
 
-    createConfirmationDiv();
+    // createConfirmationDiv();
     // modalBody.appendChild(modalConfirmationDiv);
 
     // const modalConfirmation = document.querySelector(".modal-confirmation");
     // addConfirmationContent(modalConfirmation);
-    addConfirmationContent(modalBody);
+    // addConfirmationContent(modalBody);
 }
 
 // function createConfirmationDiv
-function createConfirmationDiv() {
-    // modalBody.removeChild(firstFormDataDiv);
-    // modalBody.removeChild(lastFormDataDiv);
-    // modalBody.removeChild(emailFormDataDiv);
-    // modalBody.removeChild(birthFormDataDiv);
-    // modalBody.removeChild(participationFormDataDiv);
-    // modalBody.removeChild(radioFormDataDiv);
-    // modalBody.removeChild(checkboxFormDataDiv);
-    // modalBody.removeChild(submitInput);
-    // let modalConfirmationDiv = createDiv();
-    // modalConfirmationDiv.classList.add("modal-confirmation");
-    // modalBody.appendChild(modalConfirmationDiv);
-}
+// function createConfirmationDiv() {
+// modalBody.removeChild(firstFormDataDiv);
+// modalBody.removeChild(lastFormDataDiv);
+// modalBody.removeChild(emailFormDataDiv);
+// modalBody.removeChild(birthFormDataDiv);
+// modalBody.removeChild(participationFormDataDiv);
+// modalBody.removeChild(radioFormDataDiv);
+// modalBody.removeChild(checkboxFormDataDiv);
+// modalBody.removeChild(submitInput);
+// let modalConfirmationDiv = createDiv();
+// modalConfirmationDiv.classList.add("modal-confirmation");
+// modalBody.appendChild(modalConfirmationDiv);
+// }
 
 // function addConfirmationContent
 // function addConfirmationContent(container) {
