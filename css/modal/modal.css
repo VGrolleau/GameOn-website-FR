@@ -42,6 +42,7 @@
 }
 
 .modal-wrapper {
+    min-height: 780px;
     animation-name: modalopen;
     animation-duration: 0.8s;
 }
@@ -58,6 +59,16 @@
     border-radius: 8px;
 }
 
+.confirmation-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    height: 740px;
+}
+
 
 /* .confirmation-content {
     display: none;
@@ -72,6 +83,7 @@
     opacity: 1;
     cursor: pointer;
     transform: scale(0.7);
+    z-index: 1;
 }
 
 .close:before,
@@ -213,6 +225,8 @@ input {
     margin: 20px auto 0;
     padding: 15px 60px;
     font-size: 1.1em;
+    position: absolute;
+    bottom: 0;
 }
 
 

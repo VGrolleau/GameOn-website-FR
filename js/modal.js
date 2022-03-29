@@ -53,7 +53,7 @@ function closeModal() {
 function validate(event) {
     event.preventDefault();
     modalBody.style.display = "none";
-    confirmationContent.style.display = "inline";
+    confirmationContent.style.display = "flex";
 
     // createConfirmationDiv();
     // modalBody.appendChild(modalConfirmationDiv);
