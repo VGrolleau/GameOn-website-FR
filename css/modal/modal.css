@@ -41,6 +41,11 @@
     align-items: center;
 }
 
+.modal-wrapper {
+    animation-name: modalopen;
+    animation-duration: 0.8s;
+}
+
 .modal-wrapper,
 .confirmation-content {
     position: relative;
