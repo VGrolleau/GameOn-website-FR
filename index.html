@@ -16,6 +16,9 @@
             <a href="#">À propos</a>
             <a href="#">Contact</a>
             <a href="#">Évènements passés</a>
+            <a href="javascript:void(0);" class="icon" onclick="editNav()">
+                <i class="fa fa-bars"></i>
+            </a>
         </nav>
     </header>
 
@@ -55,8 +58,7 @@
 
                     <div class="formData">
                         <label>À combien de tournois GameOn avez-vous déjà participé ?</label>
-                        <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
-                    </div>
+                        <input type="number" class="text-control" id="quantity" name="quantity"></div>
 
                     <div class="formData">
                         <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
@@ -95,8 +97,8 @@
 
                     <div class="formData formCheckbox">
                         <div>
-                            <input class="checkbox-input" type="checkbox" id="checkbox1" checked/>
-                            <label class="checkbox-label" for="checkbox1" required>J'ai lu et accepte les conditions d'utilisation.</label>
+                            <input class="checkbox-input" type="checkbox" id="checkbox1" checked="checked" />
+                            <label class="checkbox-label" for="checkbox1" required="required">J'ai lu et accepte les conditions d'utilisation.</label>
                         </div>
 
                         <div>
@@ -123,5 +125,8 @@
 
     <script src="js/modal.js"></script>
 </body>
+
+</html>
+</head>
 
 </html>

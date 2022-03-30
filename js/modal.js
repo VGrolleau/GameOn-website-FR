@@ -17,7 +17,10 @@ const modalBody = document.querySelector(".modal-body");
 const confirmationContent = document.querySelector(".confirmation-content");
 const formDataError = document.querySelector(".formData[data-error]");
 const first = document.getElementById('first');
+const last = document.getElementById('last');
+const email = document.getElementById('email');
 const birthDate = document.getElementById("birthdate");
+const quantity = document.getElementById("quantity");
 let validation = '';
 
 // close modal event
@@ -41,7 +44,7 @@ function closeModal() {
 function validate(event) {
     event.preventDefault();
     // let firstMessage = validationRules["input[type:text]"].messageError;
-    console.log(dateNow);
+    // console.log(dateNow);
     modalBody.style.display = "none";
     confirmationContent.style.display = "flex";
 }
@@ -66,11 +69,11 @@ function getCompleteMonth(month) {
 const validationRules = {
     'text': {
         minLenght: 2,
-        match: '/^[A-Z][a-z]{1,}$/',
+        match: /^[A-Z][a-z]{1,}$/,
         messageError: 'Le texte doit faire minimum 2 caractères, ne contenir que des lettres, et commencer par une majuscule.'
     },
     'email': {
-        match: '/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/',
+        match: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
         messageError: 'Merci de renseigner un email valide'
     },
     // 'date': {
@@ -79,7 +82,7 @@ const validationRules = {
     'number': {
         min: 0,
         max: 99,
-        match: '/^([0-99])\d$/',
+        match: /^([0-99])\d$/,
         messageError: 'Merci de renseigner un nombre, compris entre 0 et 99'
     }
 }
@@ -104,4 +107,24 @@ function verifType(input) {
             break;
     }
     console.log(validation);
+}
+
+first.addEventListener('change', onChangeValue);
+last.addEventListener('change', onChangeValue);
+email.addEventListener('change', onChangeValue);
+quantity.addEventListener('change', onChangeValue);
+
+function onChangeValue(event) {
+    console.log(event.target[after]);
+    let validationMatchText = validationRules[event.target.type].match;
+    // let validationMatchText = validationRules.text.match;
+    // console.log(validationMatchText.test(first.value));
+    // console.log(validationMatchText.test(event.target.value));
+    // console.log(first.value);
+    if (!validationMatchText.test(event.target.value)) {
+        console.error(validationRules[event.target.type].messageError);
+        // formData.dataset.errorVisible;
+        // event.target.style.background = 'blue'
+        event.target.dataset.error = validationRules[event.target.type].messageError;
+    }
 }
