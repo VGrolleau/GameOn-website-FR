@@ -21,7 +21,10 @@ const last = document.getElementById('last');
 const email = document.getElementById('email');
 const birthDate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
-let validation = '';
+const radioInput1 = document.getElementById("location1");
+let validation = 0;
+const validationMax = 7;
+// let validationForm = false;
 
 // close modal event
 closeBtn.addEventListener('click', closeModal);
@@ -33,6 +36,14 @@ function launchModal() {
     confirmationContent.style.display = "none";
     birthDate.max = setMaxDate();
     // verifType(last);
+    // console.log('validation ' + validation + ', validationMax ' + validationMax);
+
+    first.addEventListener('change', onChangeValue);
+    last.addEventListener('change', onChangeValue);
+    email.addEventListener('change', onChangeValue);
+    birthDate.addEventListener('change', onChangeValue);
+    quantity.addEventListener('change', onChangeValue);
+    radioInput1.addEventListener('change', verifCheck);
 }
 
 // function close
@@ -41,12 +52,29 @@ function closeModal() {
 }
 
 // function validate
+modalBody.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    if (validation >= validationMax) {
+        launchConfirmation()
+    }
+});
+
 function validate(event) {
     event.preventDefault();
-    // let firstMessage = validationRules["input[type:text]"].messageError;
-    // console.log(dateNow);
+
+    // console.log('validation ' + validation + ', validationMax ' + validationMax);
+
+    if (validation >= validationMax) {
+        launchConfirmation()
+    }
+}
+
+function launchConfirmation() {
     modalBody.style.display = "none";
     confirmationContent.style.display = "flex";
+    validation = 0;
+    console.log('validation ' + validation + ', validationMax ' + validationMax);
 }
 
 function setMaxDate() {
@@ -76,13 +104,14 @@ const validationRules = {
         match: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
         messageError: 'Merci de renseigner un email valide'
     },
-    // 'date': {
-    //     max: setMaxDate()
-    // },
+    'date': {
+        max: setMaxDate(),
+        match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/
+    },
     'number': {
         min: 0,
         max: 99,
-        match: /^([0-99])\d$/,
+        match: /^([0-99])$/,
         messageError: 'Merci de renseigner un nombre, compris entre 0 et 99'
     }
 }
@@ -109,27 +138,38 @@ const validationRules = {
 //     console.log(validation);
 // }
 
-first.addEventListener('change', onChangeValue);
-last.addEventListener('change', onChangeValue);
-email.addEventListener('change', onChangeValue);
-quantity.addEventListener('change', onChangeValue);
-
 function onChangeValue(event) {
-    console.log(event.target);
+    if (event.target.type == "date") {
+        if (event.target.value != "") {
+            validation++;
+            console.log('validation ' + validation + ', validationMax ' + validationMax);
+        }
+    }
+
     let validationMatch = validationRules[event.target.type].match;
-    console.log(event.target.parentElement);
-    // let validationMatchText = validationRules.text.match;
-    // console.log(validationMatchText.test(event.target.value));
+    console.log(event.target);
+
     if (!validationMatch.test(event.target.value)) {
-        console.error(validationRules[event.target.type].messageError);
-        // formData.dataset.errorVisible;
-        // event.target.style.background = 'blue'
         event.target.parentElement.dataset.errorVisible = true;
         event.target.parentElement.dataset.error = validationRules[event.target.type].messageError;
-        console.log(event.target.parentElement);
+        // return validationForm = false;
+        // console.log('validation ' + validation + ', validationMax ' + validationMax);
+        validation += 0;
+        console.log('validation ' + validation + ', validationMax ' + validationMax);
+        // return
     } else {
         event.target.parentElement.dataset.errorVisible = false;
         delete event.target.parentElement.dataset.error;
-        console.log(event.target.parentElement);
+        // return validationForm = true;
+        // validation;
+        validation++;
+        console.log('validation ' + validation + ', validationMax ' + validationMax);
+    }
+}
+
+function verifCheck(event) {
+    if (event.target.checked) {
+        validation++;
+        console.log('validation ' + validation + ', validationMax ' + validationMax);
     }
 }
