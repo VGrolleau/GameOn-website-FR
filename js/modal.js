@@ -32,7 +32,7 @@ function launchModal() {
     modalBody.style.display = "inline";
     confirmationContent.style.display = "none";
     birthDate.max = setMaxDate();
-    verifType(last);
+    // verifType(last);
 }
 
 // function close
@@ -87,27 +87,27 @@ const validationRules = {
     }
 }
 
-function verifType(input) {
-    let type = input.type;
+// function verifType(input) {
+//     let type = input.type;
 
-    switch (type) {
-        case 'text':
-            validation = validationRules.text;
-            break;
+//     switch (type) {
+//         case 'text':
+//             validation = validationRules.text;
+//             break;
 
-        case 'email':
-            validation = validationRules.email;
-            break;
+//         case 'email':
+//             validation = validationRules.email;
+//             break;
 
-        case 'number':
-            validation = validationRules.number;
-            break;
+//         case 'number':
+//             validation = validationRules.number;
+//             break;
 
-        default:
-            break;
-    }
-    console.log(validation);
-}
+//         default:
+//             break;
+//     }
+//     console.log(validation);
+// }
 
 first.addEventListener('change', onChangeValue);
 last.addEventListener('change', onChangeValue);
@@ -115,16 +115,21 @@ email.addEventListener('change', onChangeValue);
 quantity.addEventListener('change', onChangeValue);
 
 function onChangeValue(event) {
-    console.log(event.target[after]);
-    let validationMatchText = validationRules[event.target.type].match;
+    console.log(event.target);
+    let validationMatch = validationRules[event.target.type].match;
+    console.log(event.target.parentElement);
     // let validationMatchText = validationRules.text.match;
-    // console.log(validationMatchText.test(first.value));
     // console.log(validationMatchText.test(event.target.value));
-    // console.log(first.value);
-    if (!validationMatchText.test(event.target.value)) {
+    if (!validationMatch.test(event.target.value)) {
         console.error(validationRules[event.target.type].messageError);
         // formData.dataset.errorVisible;
         // event.target.style.background = 'blue'
-        event.target.dataset.error = validationRules[event.target.type].messageError;
+        event.target.parentElement.dataset.errorVisible = true;
+        event.target.parentElement.dataset.error = validationRules[event.target.type].messageError;
+        console.log(event.target.parentElement);
+    } else {
+        event.target.parentElement.dataset.errorVisible = false;
+        delete event.target.parentElement.dataset.error;
+        console.log(event.target.parentElement);
     }
 }
