@@ -21,10 +21,13 @@ const last = document.getElementById('last');
 const email = document.getElementById('email');
 const birthDate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
-const radioInput1 = document.getElementById("location1");
+const radioInputs = document.querySelectorAll(".radio-input");
+// const radioInput1 = document.getElementById("location1");
+const checkboxInputs = document.querySelectorAll(".checkbox-input");
 let validation = 0;
 const validationMax = 7;
 // let validationForm = false;
+const inputs = document.getElementsByTagName('input');
 
 // close modal event
 closeBtn.addEventListener('click', closeModal);
@@ -43,7 +46,21 @@ function launchModal() {
     email.addEventListener('change', onChangeValue);
     birthDate.addEventListener('change', onChangeValue);
     quantity.addEventListener('change', onChangeValue);
-    radioInput1.addEventListener('change', verifCheck);
+    // radioInput1.addEventListener('change', verifCheck);
+    radioInputs.forEach(radioInput => {
+        radioInput.addEventListener('change', verifCheck);
+    });
+    checkboxInputs.forEach(checkboxInput => {
+        checkboxInput.addEventListener('change', verifCheck);
+    });
+
+    // for (let i = 0; i < inputs.length; i++) {
+    //     console.log(inputs[i]);
+    //     console.log(inputs[i].value);
+    //     console.log(inputs[i].type);
+    //     inputs[i].type == 'text' ? inputs[i].innerText == "null" : inputs[i].value;
+    // }
+
 }
 
 // function close
@@ -60,21 +77,27 @@ modalBody.addEventListener('submit', function(event) {
     }
 });
 
-function validate(event) {
-    event.preventDefault();
+// function validate(event) {
+//     event.preventDefault();
 
-    // console.log('validation ' + validation + ', validationMax ' + validationMax);
+//     // console.log('validation ' + validation + ', validationMax ' + validationMax);
 
-    if (validation >= validationMax) {
-        launchConfirmation()
-    }
-}
+//     if (validation >= validationMax) {
+//         launchConfirmation()
+//     }
+// }
 
 function launchConfirmation() {
     modalBody.style.display = "none";
     confirmationContent.style.display = "flex";
     validation = 0;
     console.log('validation ' + validation + ', validationMax ' + validationMax);
+    // document.getElementsByTagName('input').forEach(input => {
+    //     console.log(input.value)
+    // });
+
+    console.log(document.getElementsByTagName('input'));
+    document.reserve.reset();
 }
 
 function setMaxDate() {
@@ -106,7 +129,8 @@ const validationRules = {
     },
     'date': {
         max: setMaxDate(),
-        match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/
+        match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/,
+        messageError: 'Merci de renseigner une date valide'
     },
     'number': {
         min: 0,
