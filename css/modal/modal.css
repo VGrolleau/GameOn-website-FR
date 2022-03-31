@@ -21,9 +21,10 @@
 }
 
 .modal-wrapper {
-    min-height: 780px;
+    height: 780px;
     animation-name: modalopen;
     animation-duration: 0.8s;
+    overflow: auto;
 }
 
 .modal-wrapper,
@@ -201,13 +202,12 @@ input {
 .formData[data-error]::after,
 .formRadio[data-error]::after {
     content: attr(data-error);
-    font-size: 0.4em;
+    font-size: 0.8em;
     color: #e54858;
     display: block;
     margin-top: 7px;
     margin-bottom: 7px;
     text-align: right;
-    line-height: 0.3;
     opacity: 0;
     transition: 0.3s;
 }
