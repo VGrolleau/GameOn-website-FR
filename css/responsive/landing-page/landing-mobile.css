@@ -1,4 +1,4 @@
-/* @media screen and (max-width: 540px) {
+@media screen and (max-width: 540px) {
     .topnav a {
         display: none;
     }
@@ -7,4 +7,4 @@
         display: block;
         margin-top: -15px;
     }
-} */
+}
