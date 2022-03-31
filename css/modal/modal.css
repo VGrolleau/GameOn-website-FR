@@ -198,7 +198,8 @@ input {
 
 /* ERRORS */
 
-.formData[data-error]::after {
+.formData[data-error]::after,
+.formRadio[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
     color: #e54858;
@@ -211,11 +212,13 @@ input {
     transition: 0.3s;
 }
 
-.formData[data-error-visible="true"]::after {
+.formData[data-error-visible="true"]::after,
+.formRadio[data-error-visible="true"]::after {
     opacity: 1;
 }
 
-.formData[data-error-visible="true"] .text-control {
+.formData[data-error-visible="true"] .text-control,
+.formRadio[data-error-visible="true"] .text-control {
     border: 2px solid #e54858;
 }
 

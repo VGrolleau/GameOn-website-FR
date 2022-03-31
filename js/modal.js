@@ -71,6 +71,21 @@ function closeModal() {
 // function validate
 modalBody.addEventListener('submit', function(event) {
     event.preventDefault();
+    for (let i = 0; i < inputs.length; i++) {
+        console.log(inputs[i].value);
+        if (inputs[i].value == "") {
+            inputs[i].parentElement.dataset.errorVisible = true;
+            inputs[i].parentElement.dataset.error = "Merci de compléter ce champ";
+            console.log(inputs[i].type);
+            console.error("Merci de compléter ce champ");
+        }
+
+        if (inputs[i].type == "radio" && !inputs[i].checked) {
+            console.log("non checked");
+            inputs[i].parentElement.parentElement.dataset.errorVisible = true;
+            inputs[i].parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
+        }
+    }
 
     if (validation >= validationMax) {
         launchConfirmation()
