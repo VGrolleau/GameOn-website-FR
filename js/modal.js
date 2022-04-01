@@ -21,6 +21,7 @@ const last = document.getElementById('last');
 const email = document.getElementById('email');
 const birthDate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
+const checkboxCGU = document.getElementById("checkbox1");
 const radioInputs = document.querySelectorAll(".radio-input");
 // const radioInput1 = document.getElementById("location1");
 const checkboxInputs = document.querySelectorAll(".checkbox-input");
@@ -28,6 +29,7 @@ let validation = 0;
 const validationMax = 7;
 // let validationForm = false;
 const inputs = document.getElementsByTagName('input');
+let checkedRadio = 0;
 
 // close modal event
 closeBtn.addEventListener('click', closeModal);
@@ -38,6 +40,7 @@ function launchModal() {
     modalBody.style.display = "inline";
     confirmationContent.style.display = "none";
     birthDate.max = setMaxDate();
+    document.getElementById("checkbox1").required = true;
     // verifType(last);
     // console.log('validation ' + validation + ', validationMax ' + validationMax);
 
@@ -80,14 +83,36 @@ modalBody.addEventListener('submit', function(event) {
             console.error("Merci de compléter ce champ");
         }
 
-        if (inputs[i].type == "radio" && !inputs[i].checked) {
-            console.log("non checked");
-            inputs[i].parentElement.parentElement.dataset.errorVisible = true;
-            inputs[i].parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
+        if (inputs[i].type == "radio") {
+            if (inputs[i].checked) {
+                console.log("checked");
+                checkedRadio++;
+                console.log(checkedRadio);
+            }
+
+            if (checkedRadio > 0) {
+                inputs[i].parentElement.parentElement.dataset.errorVisible = false;
+                delete inputs[i].parentElement.parentElement.dataset.error;
+            } else {
+                console.log("non checked");
+                inputs[i].parentElement.parentElement.dataset.errorVisible = true;
+                inputs[i].parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
+                console.log(checkedRadio);
+            }
         }
+
+        // if (inputs[i].id == "checkbox1") {
+        //     if (!inputs[i].checked) {
+        //         inputs[i].parentElement.parentElement.dataset.errorVisible = true;
+        //         inputs[i].parentElement.parentElement.dataset.error = "Merci de cocher cette case";
+        //     } else {
+        //         inputs[i].parentElement.parentElement.dataset.errorVisible = false;
+        //         delete inputs[i].parentElement.parentElement.dataset.error;
+        //     }
+        // }
     }
 
-    if (validation >= validationMax) {
+    if (checkboxCGU.checked && validation >= validationMax) {
         launchConfirmation()
     }
 });
@@ -210,5 +235,42 @@ function verifCheck(event) {
     if (event.target.checked) {
         validation++;
         console.log('validation ' + validation + ', validationMax ' + validationMax);
+        //     event.target.parentElement.parentElement.dataset.errorVisible = false;
+        //     delete event.target.parentElement.parentElement.dataset.error;
+        // } else {
+        //     console.log("non checked");
+        //     event.target.parentElement.parentElement.dataset.errorVisible = true;
+        //     event.target.parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
+        //     console.log(checkedRadio);
+    }
+
+
+
+    // if (event.target.type == "radio") {
+    //     if (event.target.checked) {
+    //         console.log("checked");
+    //         checkedRadio++;
+    //         console.log(checkedRadio);
+    //     }
+
+    //     if (checkedRadio > 0) {
+    //         event.target.parentElement.parentElement.dataset.errorVisible = false;
+    //         delete event.target.parentElement.parentElement.dataset.error;
+    //     } else {
+    //         console.log("non checked");
+    //         event.target.parentElement.parentElement.dataset.errorVisible = true;
+    //         event.target.parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
+    //         console.log(checkedRadio);
+    //     }
+    // }
+
+    if (event.target.id == "checkbox1") {
+        if (!event.target.checked) {
+            event.target.parentElement.parentElement.dataset.errorVisible = true;
+            event.target.parentElement.parentElement.dataset.error = "Merci de cocher cette case";
+        } else {
+            event.target.parentElement.parentElement.dataset.errorVisible = false;
+            delete event.target.parentElement.parentElement.dataset.error;
+        }
     }
 }

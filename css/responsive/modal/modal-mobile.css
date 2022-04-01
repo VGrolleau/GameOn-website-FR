@@ -43,22 +43,27 @@ input {
 }
 
 .btn-submit {
-    /* width: fit-content;
-    display: block;
-    margin: 20px auto 0; */
     padding: 8px 30px;
     font-size: .8em;
     height: auto;
+    margin: 0 auto;
 }
 
 .confirmation-content {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     width: 100%;
     padding: 0;
     align-items: center;
-    justify-content: center;
-    height: 740px;
+    justify-content: center; */
+    height: 100%;
+}
+
+.confirmation-content h2 {
+    color: #FFF;
+    text-align: center;
+    font-size: 2em;
+    margin: 0;
 }
 
 .btn-close {

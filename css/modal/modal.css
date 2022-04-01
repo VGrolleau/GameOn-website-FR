@@ -179,6 +179,16 @@ input {
     transform-origin: left bottom;
 }
 
+.checkboxDiv {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.checkboxDiv div {
+    width: 100%;
+}
+
 .btn-submit {
     width: fit-content;
     display: block;
@@ -201,7 +211,8 @@ input {
 /* ERRORS */
 
 .formData[data-error]::after,
-.formRadio[data-error]::after {
+.formRadio[data-error]::after,
+.checkboxDiv[data-error]::after {
     content: attr(data-error);
     font-size: 0.8em;
     color: #e54858;
@@ -213,8 +224,15 @@ input {
     transition: 0.3s;
 }
 
+.checkboxDiv[data-error]::after {
+    position: absolute;
+    right: 0;
+    bottom: -10px;
+}
+
 .formData[data-error-visible="true"]::after,
-.formRadio[data-error-visible="true"]::after {
+.formRadio[data-error-visible="true"]::after,
+.checkboxDiv[data-error-visible="true"]::after {
     opacity: 1;
 }
 
