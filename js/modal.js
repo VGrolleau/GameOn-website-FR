@@ -112,7 +112,7 @@ modalBody.addEventListener('submit', function(event) {
         // }
     }
 
-    if (checkboxCGU.checked && validation >= validationMax) {
+    if (checkedRadio > 0 && checkboxCGU.checked && validation >= validationMax) {
         launchConfirmation()
     }
 });
