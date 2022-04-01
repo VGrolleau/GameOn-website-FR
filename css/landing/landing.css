@@ -69,7 +69,17 @@ nav a.active {
     transition: color .3s ease-in, background-color .3s ease-in;
 }
 
-.icon {
+
+/* #icon,
+#main-navbar-responsive {
+    display: none;
+} */
+
+
+/* hide responsive menu */
+
+#topnav_hamburger_icon,
+#topnav_responsive_menu {
     display: none;
 }
 

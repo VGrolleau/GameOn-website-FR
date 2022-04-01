@@ -17,44 +17,141 @@ header img {
     width: 9em;
 }
 
-
-/* nav {
-    width: 50%;
-    display: flex;
-    justify-content: right;
-} */
-
-
-/* nav a {
-    margin: 10px;
-    padding: 10px;
-    font-size: 1.2em;
-} */
-
-
-/* nav a:hover,
-nav a.active {
-    background-color: rgb(254, 20, 47);
-    color: #ffffff;
-    border-radius: 8px;
-    transition: color .3s ease-in, background-color .3s ease-in;
-} */
-
 nav a {
+    padding: 5px;
+}
+
+
+/* hide classic menu */
+
+#topnav_menu {
     display: none;
 }
 
-.icon {
-    display: block;
-    color: red;
+
+/* position responsive menu at the right of the screen */
+
+#topnav_responsive_menu ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
     margin: 0;
     padding: 0;
-    font-size: 1.6em;
+    right: 10px;
+    top: 0;
+    /* min-width: 50vw; */
+    height: 100%;
+    list-style: none;
+    text-align: right;
 }
 
-.icon:hover {
-    background-color: #fff;
-    color: rgb(254, 20, 47);
+
+/* disable horizontal scrolling  */
+
+#rootId {
+    position: relative;
+    overflow-x: hidden;
+}
+
+
+/* position responsive menu at the right of the screen */
+
+#topnav_responsive_menu {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 65px;
+    background: rgba(255, 255, 255, .9);
+    height: 150px;
+    margin: 0;
+    width: 100vw;
+    z-index: 99;
+    transform-origin: 0% 0%;
+    transform: translate(200%, 0);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+
+/* and let's slide it in from the right */
+
+#topnav_responsive_menu.open {
+    transform: none;
+    position: fixed;
+}
+
+
+/* define size and position of the hamburger link */
+
+#topnav_hamburger_icon {
+    display: block;
+    position: relative;
+    /* margin: 16px; */
+    width: 33px;
+    height: 28px;
+    z-index: 100;
+    user-select: none;
+    cursor: pointer;
+}
+
+
+/* define the style (size, color, position, animation, ...) of the 3 spans */
+
+#topnav_hamburger_icon span {
+    display: block;
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    margin-bottom: 5px;
+    background: red;
+    border-radius: 3px;
+    z-index: 100;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+
+/* set the 3 spans position to look like a hamburger */
+
+#topnav_hamburger_icon span:nth-child(1) {
+    top: 0px;
+    transform-origin: left top;
+}
+
+#topnav_hamburger_icon span:nth-child(2) {
+    top: 12px;
+    transform-origin: left center;
+}
+
+#topnav_hamburger_icon span:nth-child(3) {
+    top: 24px;
+    transform-origin: left bottom;
+}
+
+
+/* the first span rotates 45° \ */
+
+#topnav_hamburger_icon.open span:nth-child(1) {
+    width: 110%;
+    transform: rotate(45deg);
+}
+
+
+/* the second span disappears */
+
+#topnav_hamburger_icon.open span:nth-child(2) {
+    width: 0%;
+    opacity: 0;
+}
+
+
+/* the last span rotates -45° / */
+
+#topnav_hamburger_icon.open span:nth-child(3) {
+    width: 110%;
+    transform: rotate(-45deg);
 }
 
 
@@ -90,45 +187,9 @@ main {
 
 .btn {
     padding: 15px 30px;
-    /* background-color: rgb(254, 20, 47); */
-    /* color: #fff; */
-    /* border: none; */
-    /* border-radius: 8px; */
-    /* cursor: pointer; */
     font-size: 1em;
-    /* transition: background-color .3s ease-in; */
     margin: auto;
 }
-
-
-/* .btn:hover {
-    background-color: #3876ac;
-    transition: background-color .3s ease-in;
-} */
-
-
-/* .hero-content {
-    background: #fff;
-    color: #000;
-    padding: 20px;
-} */
-
-
-/* .hero-content::after {
-    content: unset;
-} */
-
-
-/* .hero-content .btn-signup {
-    display: none;
-} */
-
-
-/* .hero-section>.btn-signup {
-    display: block;
-    margin: 32px auto 10px;
-    padding: 12px 35px;
-} */
 
 
 /*** FOOTER ***/
@@ -138,17 +199,6 @@ footer {
 }
 
 .copyright {
-    /* margin-top: 50px; */
-    /* color: rgb(254, 20, 47); */
     font-size: .7em;
     text-align: center;
 }
-
-
-/* .copyrights {
-    margin-top: 50px;
-    text-align: center;
-} */
-
-
-/* } */

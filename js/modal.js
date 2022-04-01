@@ -1,9 +1,15 @@
-function editNav() {
-    var myTopnav = document.getElementById("myTopnav");
-    if (myTopnav.className === "topnav") {
-        myTopnav.className += " responsive";
+function showResponsiveMenu() {
+    let menu = document.getElementById("topnav_responsive_menu");
+    let icon = document.getElementById("topnav_hamburger_icon");
+    let rootId = document.getElementById("rootId");
+    if (menu.className === "") {
+        menu.className = "open";
+        icon.className = "open";
+        rootId.style.overflowY = "hidden";
     } else {
-        myTopnav.className = "topnav";
+        menu.className = "";
+        icon.className = "";
+        rootId.style.overflowY = "";
     }
 }
 
@@ -23,7 +29,6 @@ const birthDate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
 const checkboxCGU = document.getElementById("checkbox1");
 const radioInputs = document.querySelectorAll(".radio-input");
-// const radioInput1 = document.getElementById("location1");
 const checkboxInputs = document.querySelectorAll(".checkbox-input");
 let validation = 0;
 const validationMax = 7;
