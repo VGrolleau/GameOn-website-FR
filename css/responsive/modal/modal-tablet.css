@@ -1,38 +1,55 @@
-/* @media screen and (max-width: 800px) {
-    .hero-section {
-        display: block;
-        box-shadow: unset;
-    }
-    .hero-content {
-        background: #fff;
-        color: #000;
-        padding: 20px;
-    }
-    .hero-content::after {
-        content: unset;
-    }
-    .hero-content .btn-signup {
-        display: none;
-    }
-    .hero-headline {
-        font-size: 4.5rem;
-        white-space: normal;
-    }
-    .hero-text {
-        width: unset;
-        font-size: 1.5rem;
-    }
-    .hero-img img {
-        border-radius: 10px;
-        margin-top: 40px;
-    }
-    .hero-section>.btn-signup {
-        display: block;
-        margin: 32px auto 10px;
-        padding: 12px 35px;
-    }
-    .copyrights {
-        margin-top: 50px;
-        text-align: center;
-    }
-} */
+/* MODAL FORM */
+
+label,
+.text-label {
+    font-size: .9em;
+}
+
+input {
+    height: 30px;
+    font-size: .9em;
+}
+
+.btn-submit,
+.btn-close {
+    padding: 8px 30px;
+    font-size: 1em;
+    height: auto;
+    margin: 0 auto;
+}
+
+.confirmation-content h2 {
+    font-size: 2em;
+}
+
+
+/* ERRORS */
+
+.formData[data-error]::after,
+.formRadio[data-error]::after {
+    content: attr(data-error);
+    font-size: 0.8em;
+    color: #e54858;
+    display: block;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    text-align: right;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.formData[data-error-visible="true"]::after,
+.formRadio[data-error-visible="true"]::after {
+    opacity: 1;
+}
+
+.formData[data-error-visible="true"] .text-control,
+.formRadio[data-error-visible="true"] .text-control {
+    border: 2px solid #e54858;
+}
+
+input[data-error]::after {
+    content: attr(data-error);
+    font-size: 0.4em;
+    color: red;
+}
