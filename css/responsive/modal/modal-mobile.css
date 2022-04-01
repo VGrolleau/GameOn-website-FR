@@ -1,38 +1,54 @@
 /* MODAL FORM */
 
 .modal-bg {
-    /* display: none;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    z-index: 1; */
     top: 78px;
-    /* left: 0; */
-    /* width: 100%; */
-    /* height: 100%; */
-    /* background: rgba(0, 0, 0, .75);
-    justify-content: center;
-    align-items: center; */
 }
 
 .modal-wrapper {
     margin-top: 20px;
     height: 100%;
-    /* animation-name: modalopen;
-    animation-duration: 0.8s;
-    overflow: auto; */
 }
 
-.modal-wrapper,
-.confirmation-content {
-    position: relative;
-    width: 500px;
-    /* max-width: 100vw;
-    max-height: 100vh;
-    overflow: auto; */
-    background: rgb(35, 35, 35);
-    padding: 20px;
-    border-radius: 8px;
+.modal-body {
+    margin: 0;
+}
+
+.formData {
+    margin: 10px 0;
+}
+
+label,
+.text-label {
+    color: #fff;
+    font-size: .7em;
+}
+
+input {
+    height: 20px;
+    font-size: .8em;
+}
+
+.radio-input,
+.checkbox-input {
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox-input::before {
+    left: -2px;
+}
+
+.checkbox-input::after {
+    left: -1px;
+}
+
+.btn-submit {
+    /* width: fit-content;
+    display: block;
+    margin: 20px auto 0; */
+    padding: 8px 30px;
+    font-size: .8em;
+    height: auto;
 }
 
 .confirmation-content {
@@ -43,143 +59,6 @@
     align-items: center;
     justify-content: center;
     height: 740px;
-}
-
-.close {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    width: 32px;
-    height: 32px;
-    opacity: 1;
-    cursor: pointer;
-    transform: scale(0.7);
-    z-index: 1;
-}
-
-.close:before,
-.close:after {
-    position: absolute;
-    left: 15px;
-    content: " ";
-    height: 33px;
-    width: 3px;
-    background-color: #fff;
-}
-
-.close:before {
-    transform: rotate(45deg);
-}
-
-.close:after {
-    transform: rotate(-45deg);
-}
-
-.modal-body {
-    margin: 20px 0;
-}
-
-.formData {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 20px;
-}
-
-.formRadio {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.formRadio div,
-.formCheckbox div {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.formRadio div {
-    width: fit-content;
-    margin-right: 20px;
-}
-
-label,
-.text-label {
-    margin-bottom: 10px;
-}
-
-.radio-label,
-.checkbox-label {
-    margin: 0 0 0 5px;
-}
-
-input {
-    padding: 8px;
-    border: 0.8px solid #ccc;
-    outline: none;
-    width: calc(100% - 20px);
-    border-radius: 8px;
-    height: 48px;
-}
-
-.radio-input,
-.checkbox-input {
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background-clip: content-box;
-}
-
-.radio-input {
-    border-radius: 50%;
-    padding: 3px;
-}
-
-.checkbox-input {
-    position: relative;
-    border: none;
-    background-color: #ccc;
-}
-
-.radio-input:checked,
-.checkbox-input:checked {
-    background-color: #279e7a;
-}
-
-.radio-input:checked {
-    border-color: #279e7a;
-}
-
-.checkbox-input::before {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    height: 25%;
-    width: 3px;
-    background-color: #ccc;
-    content: "";
-    transform: translateX(10px) rotate(-45deg);
-    transform-origin: left bottom;
-}
-
-.checkbox-input::after {
-    position: absolute;
-    left: 1px;
-    bottom: 25%;
-    height: 3px;
-    width: 50%;
-    background-color: #ccc;
-    content: "";
-    transform: translateX(10px) rotate(-45deg);
-    transform-origin: left bottom;
-}
-
-.btn-submit {
-    width: fit-content;
-    display: block;
-    margin: 20px auto 0;
-    padding: 0 40px;
-    font-size: 1.1em;
 }
 
 .btn-close {
