@@ -77,7 +77,6 @@ header img {
 #topnav_hamburger_icon {
     display: block;
     position: relative;
-    /* margin: 16px; */
     width: 33px;
     height: 28px;
     z-index: 100;
@@ -152,9 +151,6 @@ main {
     margin: 125px 40px 40px;
     padding: 0;
     background: rgb(35, 35, 35);
-    /* border-radius: 0; */
-    /* color: initial; */
-    /* box-shadow: unset; */
     display: flex;
     flex-direction: column;
 }
