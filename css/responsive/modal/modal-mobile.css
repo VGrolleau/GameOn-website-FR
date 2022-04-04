@@ -51,12 +51,6 @@ input {
 }
 
 .confirmation-content {
-    /* display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0;
-    align-items: center;
-    justify-content: center; */
     height: 100%;
 }
 
