@@ -46,18 +46,18 @@ function launchModal() {
     birthDate.max = setMaxDate();
     document.getElementById("checkbox1").required = true;
 
-    first.addEventListener('change', onChangeValue);
-    last.addEventListener('change', onChangeValue);
-    email.addEventListener('change', onChangeValue);
-    birthDate.addEventListener('change', onChangeValue);
-    quantity.addEventListener('change', onChangeValue);
+    // first.addEventListener('change', onChangeValue);
+    // last.addEventListener('change', onChangeValue);
+    // email.addEventListener('change', onChangeValue);
+    // birthDate.addEventListener('change', onChangeValue);
+    // quantity.addEventListener('change', onChangeValue);
 
-    radioInputs.forEach(radioInput => {
-        radioInput.addEventListener('change', verifCheck);
-    });
-    checkboxInputs.forEach(checkboxInput => {
-        checkboxInput.addEventListener('change', verifCheck);
-    });
+    // radioInputs.forEach(radioInput => {
+    //     radioInput.addEventListener('change', verifCheck);
+    // });
+    // checkboxInputs.forEach(checkboxInput => {
+    //     checkboxInput.addEventListener('change', verifCheck);
+    // });
 }
 
 // function close
@@ -65,48 +65,152 @@ function closeModal() {
     modalbg.style.display = "none";
 }
 
+const validationRules = {
+    'first': {
+        minLength: {
+            min: 2,
+            messageError: "Le prénom doit faire minimum 2 caractères."
+        },
+        regex: {
+            match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
+            messageError: 'Le prénom ne doit contenir que des lettres, et commencer par une majuscule.'
+        }
+    },
+    'last': {
+        minLength: {
+            min: 2,
+            messageError: "Le nom doit faire minimum 2 caractères."
+        },
+        regex: {
+            match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
+            messageError: 'Le nom ne doit contenir que des lettres, et commencer par une majuscule.'
+        }
+    },
+    'email': {
+        regex: {
+            match: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
+            messageError: 'Merci de renseigner un email valide.'
+        }
+    },
+    'birthdate': {
+        maxDate: {
+            max: setMaxDate(),
+            messageError: "La date de naissance ne peut être supérieure à la date actuelle."
+        },
+        regex: {
+            match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/,
+            messageError: 'Merci de renseigner une date valide'
+        }
+    },
+    'quantity': {
+        minLength: {
+            min: 0,
+            messageError: 'Le nombre doit être au minimum 0'
+        },
+        maxLength: {
+            max: 99,
+            messageError: 'Le nombre doit être au maximum 99'
+        },
+        regex: {
+            match: /^([0-99])$/,
+            messageError: 'Merci de renseigner un nombre'
+        }
+    },
+    'location1': {
+        messageError: "Merci de choisir un lieu",
+    },
+    'location2': {
+        messageError: "Merci de choisir un lieu",
+    },
+    'location3': {
+        messageError: "Merci de choisir un lieu",
+    },
+    'location4': {
+        messageError: "Merci de choisir un lieu",
+    },
+    'location5': {
+        messageError: "Merci de choisir un lieu",
+    },
+    'location6': {
+        messageError: "Merci de choisir un lieu",
+    },
+    'checkbox1': {
+        require: {
+            required: true,
+            messageError: "Merci de cocher cette case"
+        }
+    }
+}
+
 // function validate
 modalBody.addEventListener('submit', function(event) {
     event.preventDefault();
+    // console.log(event.target);
     for (let i = 0; i < inputs.length; i++) {
-        console.log(inputs[i].value);
         if (inputs[i].value == "") {
             inputs[i].parentElement.dataset.errorVisible = true;
             inputs[i].parentElement.dataset.error = "Merci de compléter ce champ";
-            console.log(inputs[i].type);
-            console.error("Merci de compléter ce champ");
         }
 
         if (inputs[i].type == "radio") {
             if (inputs[i].checked) {
-                console.log("checked");
                 checkedRadio++;
-                console.log(checkedRadio);
             }
 
             if (checkedRadio > 0) {
                 inputs[i].parentElement.parentElement.dataset.errorVisible = false;
                 delete inputs[i].parentElement.parentElement.dataset.error;
             } else {
-                console.log("non checked");
                 inputs[i].parentElement.parentElement.dataset.errorVisible = true;
                 inputs[i].parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
-                console.log(checkedRadio);
+            }
+        }
+
+        for (let firstRule in validationRules) {
+            if (inputs[i].id == firstRule) {
+                // console.log(inputs[i].id);
+                console.log(validationRules[firstRule]);
+                switch (firstRule) {
+                    case 'minLength':
+                        console.log(validationRules[firstRule]);
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
     }
+
+    // for (const rules in validationRules) {
+    //     console.log("rules " + rules);
+    //     // console.log("rules " + validationRules[rules]);
+    //     if (rules == "first") {
+    //         for (const rule in rules) {
+    //             console.log("rule " + rules[rule]);
+    //         }
+    //     }
+    // }
+
+    // for (let firstRule in validationRules) {
+    //     if (firstRule == "first") {
+    //         // console.log("firstRule ", firstRule, ":", validationRules[firstRule]);
+    //         for (let secondRule in validationRules[firstRule]) {
+    //             if (secondRule == "minLength") {
+    //                 console.log("secondRule ", secondRule, ":", validationRules[firstRule][secondRule]);
+    //                 console.error(validationRules[firstRule][secondRule].messageError)
+    //                     // for (const thirdRule in validationRules[firstRule][secondRule]) {
+    //                     //     console.log("thirdRule ", thirdRule, ":", validationRules[firstRule][secondRule][thirdRule]);
+    //                     // }
+    //             }
+    //         }
+    //     }
+    // }
 
     if (checkedRadio > 0 && checkboxCGU.checked && validation >= validationMax) {
         launchConfirmation()
     }
 });
-
-function launchConfirmation() {
-    modalBody.style.display = "none";
-    confirmationContent.style.display = "flex";
-    validation = 0;
-    document.reserve.reset();
-}
 
 function setMaxDate() {
     let dateNow = new Date();
@@ -125,66 +229,45 @@ function getCompleteMonth(month) {
     }
 }
 
-const validationRules = {
-    'first': {
-        minLenght: 2,
-        match: /^[A-Z][a-z]{1,}$/,
-        messageError: 'Le texte doit faire minimum 2 caractères, ne contenir que des lettres, et commencer par une majuscule.'
-    },
-    'last': {
-        minLenght: 2,
-        match: /^([A-Z]{1})([a-z]{1,})|([A-Z]{2,})/,
-        messageError: 'Le texte doit faire minimum 2 caractères, ne contenir que des lettres, et commencer par une majuscule.'
-    },
-    'email': {
-        match: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
-        messageError: 'Merci de renseigner un email valide'
-    },
-    'birthdate': {
-        max: setMaxDate(),
-        match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/,
-        messageError: 'Merci de renseigner une date valide'
-    },
-    'quantity': {
-        min: 0,
-        max: 99,
-        match: /^([0-99])$/,
-        messageError: 'Merci de renseigner un nombre, compris entre 0 et 99'
-    }
-}
+// function onChangeValue(event) {
+//     if (event.target.id == "birthdate") {
+//         if (event.target.value != "") {
+//             validation++;
+//         }
+//     }
 
-function onChangeValue(event) {
-    if (event.target.id == "birthdate") {
-        if (event.target.value != "") {
-            validation++;
-        }
-    }
+//     let validationMatch = validationRules[event.target.id].match;
 
-    let validationMatch = validationRules[event.target.id].match;
+//     if (!validationMatch.test(event.target.value)) {
+//         event.target.parentElement.dataset.errorVisible = true;
+//         event.target.parentElement.dataset.error = validationRules[event.target.id].messageError;
+//         validation += 0;
+//     } else {
+//         event.target.parentElement.dataset.errorVisible = false;
+//         delete event.target.parentElement.dataset.error;
+//         validation++;
+//     }
+// }
 
-    if (!validationMatch.test(event.target.value)) {
-        event.target.parentElement.dataset.errorVisible = true;
-        event.target.parentElement.dataset.error = validationRules[event.target.id].messageError;
-        validation += 0;
-    } else {
-        event.target.parentElement.dataset.errorVisible = false;
-        delete event.target.parentElement.dataset.error;
-        validation++;
-    }
-}
+// function verifCheck(event) {
+//     if (event.target.checked) {
+//         validation++;
+//     }
 
-function verifCheck(event) {
-    if (event.target.checked) {
-        validation++;
-    }
+//     if (event.target.id == "checkbox1") {
+//         if (!event.target.checked) {
+//             event.target.parentElement.parentElement.dataset.errorVisible = true;
+//             event.target.parentElement.parentElement.dataset.error = "Merci de cocher cette case";
+//         } else {
+//             event.target.parentElement.parentElement.dataset.errorVisible = false;
+//             delete event.target.parentElement.parentElement.dataset.error;
+//         }
+//     }
+// }
 
-    if (event.target.id == "checkbox1") {
-        if (!event.target.checked) {
-            event.target.parentElement.parentElement.dataset.errorVisible = true;
-            event.target.parentElement.parentElement.dataset.error = "Merci de cocher cette case";
-        } else {
-            event.target.parentElement.parentElement.dataset.errorVisible = false;
-            delete event.target.parentElement.parentElement.dataset.error;
-        }
-    }
+function launchConfirmation() {
+    modalBody.style.display = "none";
+    confirmationContent.style.display = "flex";
+    validation = 0;
+    document.reserve.reset();
 }
