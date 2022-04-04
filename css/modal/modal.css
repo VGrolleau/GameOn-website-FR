@@ -1,7 +1,3 @@
-/* @import url("../responsive/modal/modal-mobile.css");
-@import url("../responsive/modal/modal-tablet.css");
-@import url("../responsive/modal/modal-desktop.css"); */
-
 @import url("../keyframes/modal-keyframes.css");
 
 /* MODAL FORM */
@@ -32,9 +28,6 @@
 .confirmation-content {
     position: relative;
     width: 500px;
-    /* max-width: 100vw;
-    max-height: 100vh;
-    overflow: auto; */
     background: rgb(35, 35, 35);
     padding: 20px;
     border-radius: 8px;
