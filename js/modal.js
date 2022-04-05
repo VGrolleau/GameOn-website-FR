@@ -30,6 +30,7 @@ const quantity = document.getElementById("quantity");
 const checkboxCGU = document.getElementById("checkbox1");
 const radioInputs = document.querySelectorAll(".radio-input");
 const checkboxInputs = document.querySelectorAll(".checkbox-input");
+let error = 0;
 let validation = 0;
 const validationMax = 7;
 const inputs = document.getElementsByTagName('input');
@@ -103,11 +104,11 @@ const validationRules = {
         }
     },
     'quantity': {
-        minLength: {
+        minNumber: {
             min: 0,
             messageError: 'Le nombre doit être au minimum 0'
         },
-        maxLength: {
+        maxNumber: {
             max: 99,
             messageError: 'Le nombre doit être au maximum 99'
         },
@@ -116,24 +117,24 @@ const validationRules = {
             messageError: 'Merci de renseigner un nombre'
         }
     },
-    'location1': {
-        messageError: "Merci de choisir un lieu",
-    },
-    'location2': {
-        messageError: "Merci de choisir un lieu",
-    },
-    'location3': {
-        messageError: "Merci de choisir un lieu",
-    },
-    'location4': {
-        messageError: "Merci de choisir un lieu",
-    },
-    'location5': {
-        messageError: "Merci de choisir un lieu",
-    },
-    'location6': {
-        messageError: "Merci de choisir un lieu",
-    },
+    // 'location1': {
+    //     messageError: "Merci de choisir un lieu",
+    // },
+    // 'location2': {
+    //     messageError: "Merci de choisir un lieu",
+    // },
+    // 'location3': {
+    //     messageError: "Merci de choisir un lieu",
+    // },
+    // 'location4': {
+    //     messageError: "Merci de choisir un lieu",
+    // },
+    // 'location5': {
+    //     messageError: "Merci de choisir un lieu",
+    // },
+    // 'location6': {
+    //     messageError: "Merci de choisir un lieu",
+    // },
     'checkbox1': {
         require: {
             required: true,
@@ -168,11 +169,31 @@ modalBody.addEventListener('submit', function(event) {
 
         for (let firstRule in validationRules) {
             if (inputs[i].id == firstRule) {
-                // console.log(inputs[i].id);
-                console.log(validationRules[firstRule]);
+                // console.log(firstRule);
                 switch (firstRule) {
-                    case 'minLength':
-                        console.log(validationRules[firstRule]);
+                    case 'first':
+                        // console.log('first');
+                        // console.log('first.length = ', first.length);
+                        checkMinlength(first);
+                        break;
+
+                    case 'last':
+                        // console.log('last');
+                        checkMinlength(last);
+                        break;
+
+                    case 'email':
+                        break;
+
+                    case 'birthdate':
+                        break;
+
+                    case 'quantity':
+                        checkMinMaxNumber(quantity);
+                        // checkMaxNumber(quantity);
+                        break;
+
+                    case 'checkbox1':
                         break;
 
                     default:
@@ -181,16 +202,6 @@ modalBody.addEventListener('submit', function(event) {
             }
         }
     }
-
-    // for (const rules in validationRules) {
-    //     console.log("rules " + rules);
-    //     // console.log("rules " + validationRules[rules]);
-    //     if (rules == "first") {
-    //         for (const rule in rules) {
-    //             console.log("rule " + rules[rule]);
-    //         }
-    //     }
-    // }
 
     // for (let firstRule in validationRules) {
     //     if (firstRule == "first") {
@@ -207,10 +218,73 @@ modalBody.addEventListener('submit', function(event) {
     //     }
     // }
 
-    if (checkedRadio > 0 && checkboxCGU.checked && validation >= validationMax) {
+    if (error === 0 && checkedRadio > 0 && checkboxCGU.checked) {
         launchConfirmation()
     }
 });
+
+function checkMinlength(element) {
+    // console.log(validationRules[element.id].minLength.min);
+    element.minLength = validationRules[element.id].minLength.min;
+    if (!element.value.length || element.value.length < element.minLength) {
+        error++;
+        // console.log("longueur : ", element.value.length, ", error : ", error);
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+    }
+}
+
+function checkMinMaxNumber(element) {
+    element.min = validationRules[element.id].minNumber.min;
+    element.max = validationRules[element.id].maxNumber.max;
+    if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
+        // console.log("error");
+        error++;
+        element.parentElement.dataset.errorVisible = true;
+
+        if (Number(element.value) < Number(element.min)) {
+            element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
+        }
+
+        if (Number(element.value) > Number(element.max)) {
+            element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
+        }
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+    }
+}
+
+// function checkMinNumber(element) {
+//     element.min = validationRules[element.id].minNumber.min;
+//     console.log(element);
+//     if (!element.value.length || element.value < element.min) {
+//         error++;
+//         // console.log("longueur : ", element.value.length, ", error : ", error);
+//         element.parentElement.dataset.errorVisible = true;
+//         element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
+//     } else {
+//         element.parentElement.dataset.errorVisible = false;
+//         delete element.parentElement.dataset.error;
+//     }
+// }
+
+// function checkMaxNumber(element) {
+//     element.max = validationRules[element.id].maxNumber.max;
+//     console.log(element);
+//     if (element.value > element.max) {
+//         error++;
+//         // console.log("longueur : ", element.value.length, ", error : ", error);
+//         element.parentElement.dataset.errorVisible = true;
+//         element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
+//     } else {
+//         element.parentElement.dataset.errorVisible = false;
+//         delete element.parentElement.dataset.error;
+//     }
+// }
 
 function setMaxDate() {
     let dateNow = new Date();
@@ -268,6 +342,7 @@ function getCompleteMonth(month) {
 function launchConfirmation() {
     modalBody.style.display = "none";
     confirmationContent.style.display = "flex";
-    validation = 0;
+    // validation = 0;
+    error = 0;
     document.reserve.reset();
 }
