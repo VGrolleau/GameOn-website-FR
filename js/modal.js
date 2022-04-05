@@ -66,6 +66,23 @@ function closeModal() {
     modalbg.style.display = "none";
 }
 
+function setMaxDate() {
+    let dateNow = new Date();
+    let actualYear = dateNow.getFullYear();
+    let actualMonth = dateNow.getMonth() + 1;
+    actualMonthComplete = getCompleteMonth(actualMonth);
+    let actualDay = dateNow.getDate();
+    return `${actualYear}-${actualMonthComplete}-${actualDay}`;
+}
+
+function getCompleteMonth(month) {
+    if (month < 10) {
+        return `0${month}`
+    } else {
+        return month
+    }
+}
+
 const validationRules = {
     'first': {
         minLength: {
@@ -136,8 +153,8 @@ const validationRules = {
     //     messageError: "Merci de choisir un lieu",
     // },
     'checkbox1': {
-        require: {
-            required: true,
+        check: {
+            checked: true,
             messageError: "Merci de cocher cette case"
         }
     }
@@ -169,31 +186,32 @@ modalBody.addEventListener('submit', function(event) {
 
         for (let firstRule in validationRules) {
             if (inputs[i].id == firstRule) {
-                // console.log(firstRule);
                 switch (firstRule) {
                     case 'first':
-                        // console.log('first');
-                        // console.log('first.length = ', first.length);
                         checkMinlength(first);
+                        checkRegex(first);
                         break;
 
                     case 'last':
-                        // console.log('last');
                         checkMinlength(last);
+                        checkRegex(last);
                         break;
 
                     case 'email':
+                        checkRegex(email);
                         break;
 
                     case 'birthdate':
+                        checkRegex(birthDate);
                         break;
 
                     case 'quantity':
                         checkMinMaxNumber(quantity);
-                        // checkMaxNumber(quantity);
+                        checkRegex(quantity);
                         break;
 
                     case 'checkbox1':
+                        checkChecked(checkbox1);
                         break;
 
                     default:
@@ -218,17 +236,15 @@ modalBody.addEventListener('submit', function(event) {
     //     }
     // }
 
-    if (error === 0 && checkedRadio > 0 && checkboxCGU.checked) {
+    if (error === 0 && checkedRadio > 0) {
         launchConfirmation()
     }
 });
 
 function checkMinlength(element) {
-    // console.log(validationRules[element.id].minLength.min);
     element.minLength = validationRules[element.id].minLength.min;
     if (!element.value.length || element.value.length < element.minLength) {
         error++;
-        // console.log("longueur : ", element.value.length, ", error : ", error);
         element.parentElement.dataset.errorVisible = true;
         element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
     } else {
@@ -241,7 +257,6 @@ function checkMinMaxNumber(element) {
     element.min = validationRules[element.id].minNumber.min;
     element.max = validationRules[element.id].maxNumber.max;
     if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
-        // console.log("error");
         error++;
         element.parentElement.dataset.errorVisible = true;
 
@@ -258,49 +273,33 @@ function checkMinMaxNumber(element) {
     }
 }
 
-// function checkMinNumber(element) {
-//     element.min = validationRules[element.id].minNumber.min;
-//     console.log(element);
-//     if (!element.value.length || element.value < element.min) {
-//         error++;
-//         // console.log("longueur : ", element.value.length, ", error : ", error);
-//         element.parentElement.dataset.errorVisible = true;
-//         element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
-//     } else {
-//         element.parentElement.dataset.errorVisible = false;
-//         delete element.parentElement.dataset.error;
-//     }
-// }
+function checkRegex(element) {
+    if (element.value != "") {
+        let validationMatch = validationRules[element.id].regex.match;
 
-// function checkMaxNumber(element) {
-//     element.max = validationRules[element.id].maxNumber.max;
-//     console.log(element);
-//     if (element.value > element.max) {
-//         error++;
-//         // console.log("longueur : ", element.value.length, ", error : ", error);
-//         element.parentElement.dataset.errorVisible = true;
-//         element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
-//     } else {
-//         element.parentElement.dataset.errorVisible = false;
-//         delete element.parentElement.dataset.error;
-//     }
-// }
-
-function setMaxDate() {
-    let dateNow = new Date();
-    let actualYear = dateNow.getFullYear();
-    let actualMonth = dateNow.getMonth() + 1;
-    actualMonthComplete = getCompleteMonth(actualMonth);
-    let actualDay = dateNow.getDate();
-    return `${actualYear}-${actualMonthComplete}-${actualDay}`;
+        if (!validationMatch.test(element.value)) {
+            element.parentElement.dataset.errorVisible = true;
+            element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
+            // validation += 0;
+        } else {
+            element.parentElement.dataset.errorVisible = false;
+            delete element.parentElement.dataset.error;
+            // validation++;
+            error++;
+        }
+    }
 }
 
-function getCompleteMonth(month) {
-    if (month < 10) {
-        return `0${month}`
+function checkChecked(element) {
+    // if (event.target.id == "checkbox1") {
+    if (!element.checked) {
+        element.parentElement.parentElement.dataset.errorVisible = true;
+        element.parentElement.parentElement.dataset.error = validationRules[element.id].check.messageError;
     } else {
-        return month
+        element.parentElement.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.parentElement.dataset.error;
     }
+    // }
 }
 
 // function onChangeValue(event) {
