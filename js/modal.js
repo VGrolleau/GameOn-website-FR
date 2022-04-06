@@ -25,7 +25,7 @@ const formDataError = document.querySelector(".formData[data-error]");
 const first = document.getElementById('first');
 const last = document.getElementById('last');
 const email = document.getElementById('email');
-const birthDate = document.getElementById("birthdate");
+const birthdate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
 const checkboxCGU = document.getElementById("checkbox1");
 const radioInputs = document.querySelectorAll(".radio-input");
@@ -44,13 +44,13 @@ function launchModal() {
     modalbg.style.display = "flex";
     modalBody.style.display = "inline";
     confirmationContent.style.display = "none";
-    birthDate.max = setMaxDate();
+    birthdate.max = setMaxDate();
     document.getElementById("checkbox1").required = true;
 
     // first.addEventListener('change', onChangeValue);
     // last.addEventListener('change', onChangeValue);
     // email.addEventListener('change', onChangeValue);
-    // birthDate.addEventListener('change', onChangeValue);
+    // birthdate.addEventListener('change', onChangeValue);
     // quantity.addEventListener('change', onChangeValue);
 
     // radioInputs.forEach(radioInput => {
@@ -64,23 +64,6 @@ function launchModal() {
 // function close
 function closeModal() {
     modalbg.style.display = "none";
-}
-
-function setMaxDate() {
-    let dateNow = new Date();
-    let actualYear = dateNow.getFullYear();
-    let actualMonth = dateNow.getMonth() + 1;
-    actualMonthComplete = getCompleteMonth(actualMonth);
-    let actualDay = dateNow.getDate();
-    return `${actualYear}-${actualMonthComplete}-${actualDay}`;
-}
-
-function getCompleteMonth(month) {
-    if (month < 10) {
-        return `0${month}`
-    } else {
-        return month
-    }
 }
 
 const validationRules = {
@@ -190,28 +173,35 @@ modalBody.addEventListener('submit', function(event) {
                     case 'first':
                         checkMinlength(first);
                         checkRegex(first);
+                        console.log("error first", error);
                         break;
 
                     case 'last':
                         checkMinlength(last);
                         checkRegex(last);
+                        console.log("error last", error);
                         break;
 
                     case 'email':
                         checkRegex(email);
+                        console.log("error email", error);
                         break;
 
                     case 'birthdate':
-                        checkRegex(birthDate);
+                        checkRegex(birthdate);
+                        checkMaxDate(birthdate);
+                        console.log("error birthdate", error);
                         break;
 
                     case 'quantity':
                         checkMinMaxNumber(quantity);
                         checkRegex(quantity);
+                        console.log("error quantity", error);
                         break;
 
                     case 'checkbox1':
                         checkChecked(checkbox1);
+                        console.log("error checkbox1", error);
                         break;
 
                     default:
@@ -236,7 +226,10 @@ modalBody.addEventListener('submit', function(event) {
     //     }
     // }
 
-    if (error === 0 && checkedRadio > 0) {
+    console.log("error submit", error);
+    console.log("checkedRadio", checkedRadio);
+
+    if (checkedRadio > 0 && error === 0) {
         launchConfirmation()
     }
 });
@@ -280,13 +273,57 @@ function checkRegex(element) {
         if (!validationMatch.test(element.value)) {
             element.parentElement.dataset.errorVisible = true;
             element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
+            error++;
             // validation += 0;
         } else {
             element.parentElement.dataset.errorVisible = false;
             delete element.parentElement.dataset.error;
             // validation++;
-            error++;
         }
+    }
+}
+
+function checkMaxDate(element) {
+    // element.max = validationRules[element.id].maxDate.max;
+    let dateChoice = element.value.split('-').join('');
+    let dateMax = element.max.split('-').join('');
+    console.log(dateChoice, dateMax);
+
+    if (dateChoice > dateMax) {
+        // console.error("error");
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].maxDate.messageError;
+        error++;
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+    }
+}
+
+function setMaxDate() {
+    let dateNow = new Date();
+    // console.log("dateNow : ", dateNow);
+    let actualYear = dateNow.getFullYear();
+    let actualMonth = dateNow.getMonth() + 1;
+    let actualMonthComplete = getCompleteMonth(actualMonth);
+    let actualDay = dateNow.getDate();
+    let actualDayComplete = getCompleteDay(actualDay);
+    return `${actualYear}-${actualMonthComplete}-${actualDayComplete}`;
+}
+
+function getCompleteDay(day) {
+    if (day < 10) {
+        return `0${day}`
+    } else {
+        return day
+    }
+}
+
+function getCompleteMonth(month) {
+    if (month < 10) {
+        return `0${month}`
+    } else {
+        return month
     }
 }
 
