@@ -50,10 +50,6 @@ function closeModal() {
 
 const validationRules = {
     'first': {
-        require: {
-            required: "true",
-            messageError: "Merci de compléter ce champ"
-        },
         minLength: {
             min: 2,
             messageError: "Le prénom doit faire minimum 2 caractères."
@@ -61,6 +57,10 @@ const validationRules = {
         regex: {
             match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
             messageError: 'Le prénom ne doit contenir que des lettres, et commencer par une majuscule.'
+        },
+        require: {
+            required: "true",
+            messageError: "Merci de compléter ce champ"
         },
     },
     'last': {
@@ -120,13 +120,13 @@ const validationRules = {
         }
     },
     'radioLocations': {
-        require: {
+        checkRadio: {
             required: true,
             messageError: "Merci de choisir un lieu"
         }
     },
     'checkbox1': {
-        require: {
+        check: {
             required: true,
             messageError: "Merci de cocher cette case"
         }
@@ -137,42 +137,67 @@ const validationRules = {
 modalBody.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    for (let firstRule in validationRules) {
-        switch (firstRule) {
-            case 'first':
-                checkMinlength(first);
-                checkRegex(first);
-                break;
+    // for (let firstRule in validationRules) {
+    //     switch (firstRule) {
+    //         case 'first':
+    //             checkMinlength(first);
+    //             checkRegex(first);
+    //             break;
 
-            case 'last':
-                checkMinlength(last);
-                checkRegex(last);
-                break;
+    //         case 'last':
+    //             checkMinlength(last);
+    //             checkRegex(last);
+    //             break;
 
-            case 'email':
-                checkRegex(email);
-                break;
+    //         case 'email':
+    //             checkRegex(email);
+    //             break;
 
-            case 'birthdate':
-                checkRegex(birthdate);
-                checkMaxDate(birthdate);
-                break;
+    //         case 'birthdate':
+    //             checkRegex(birthdate);
+    //             checkMaxDate(birthdate);
+    //             break;
 
-            case 'quantity':
-                checkMinMaxNumber(quantity);
-                checkRegex(quantity);
-                break;
+    //         case 'quantity':
+    //             checkMinMaxNumber(quantity);
+    //             checkRegex(quantity);
+    //             break;
 
-            case 'radioLocations':
-                checkCheckedRadio(radioLocations);
-                break;
+    //         case 'radioLocations':
+    //             checkCheckedRadio(radioLocations);
+    //             break;
 
-            case 'checkbox1':
-                checkChecked(checkbox1);
-                break;
+    //         case 'checkbox1':
+    //             checkChecked(checkbox1);
+    //             break;
 
-            default:
-                break;
+    //         default:
+    //             break;
+    //     }
+    // }
+
+    for (const [element, rules] of Object.entries(validationRules)) {
+        if ('minLength' in rules) {
+            checkMinlength(document.getElementById(`${element}`), rules['minLength'].min);
+        }
+        if ('maxDate' in rules) {
+            checkMaxDate(document.getElementById(`${element}`));
+        }
+        if ('minNumber' in rules && 'maxNumber' in rules) {
+            // console.log("Min max");
+            checkMinMaxNumber(document.getElementById(`${element}`), rules['minNumber'].min, rules['maxNumber'].max);
+        }
+        if ('regex' in rules) {
+            checkRegex(document.getElementById(`${element}`));
+        }
+        if ('require' in rules) {
+            checkRequire(document.getElementById(`${element}`));
+        }
+        if ('checkRadio' in rules) {
+            checkCheckedRadio(document.getElementById(`${element}`));
+        }
+        if ('check' in rules) {
+            checkChecked(document.getElementById(`${element}`));
         }
     }
 
@@ -183,11 +208,11 @@ modalBody.addEventListener('submit', function(event) {
     }
 });
 
-function checkMinlength(element) {
+// function checkMinlength(element) {
+function checkMinlength(element, min) {
     let errorMinlength = 0;
-    element.minLength = validationRules[element.id].minLength.min;
 
-    if (element.value.length < element.minLength) {
+    if (element.value.length < min) {
         errorMinlength++;
         element.parentElement.dataset.errorVisible = true;
         element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
@@ -200,20 +225,24 @@ function checkMinlength(element) {
     error += errorMinlength;
 }
 
-function checkMinMaxNumber(element) {
+// function checkMinMaxNumber(element) {
+function checkMinMaxNumber(element, min, max) {
     let errorMinMax = 0;
-    element.min = validationRules[element.id].minNumber.min;
-    element.max = validationRules[element.id].maxNumber.max;
+    // element.min = validationRules[element.id].minNumber.min;
+    // element.max = validationRules[element.id].maxNumber.max;
 
-    if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
+    // if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
+    if (!element.value.length || Number(element.value) < min || Number(element.value) > max) {
         errorMinMax++;
         element.parentElement.dataset.errorVisible = true;
 
-        if (Number(element.value) < Number(element.min)) {
+        // if (Number(element.value) < Number(element.min)) {
+        if (Number(element.value) < min) {
             element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
         }
 
-        if (Number(element.value) > Number(element.max)) {
+        // if (Number(element.value) > Number(element.max)) {
+        if (Number(element.value) > max) {
             element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
         }
     } else {
@@ -297,7 +326,7 @@ function checkChecked(element) {
     if (!element.checked) {
         errorCheck++;
         element.parentElement.parentElement.dataset.errorVisible = true;
-        element.parentElement.parentElement.dataset.error = validationRules[element.id].require.messageError;
+        element.parentElement.parentElement.dataset.error = validationRules[element.id].check.messageError;
     } else {
         errorCheck = 0;
         element.parentElement.parentElement.dataset.errorVisible = false;
@@ -322,7 +351,7 @@ function checkCheckedRadio(element) {
     if (check == 0) {
         errorCheckRadio++;
         element.dataset.errorVisible = true;
-        element.dataset.error = validationRules[element.id].require.messageError;
+        element.dataset.error = validationRules[element.id].checkRadio.messageError;
     } else {
         errorCheckRadio = 0;
         element.dataset.errorVisible = false;
