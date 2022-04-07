@@ -25,7 +25,7 @@ const email = document.getElementById('email');
 const birthdate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
 const checkboxCGU = document.getElementById("checkbox1");
-const radioInputs = document.querySelectorAll(".radio-input");
+const radioLocations = document.getElementById("radioLocations");
 const checkboxInputs = document.querySelectorAll(".checkbox-input");
 let error = 0;
 const inputs = document.getElementsByTagName('input');
@@ -99,9 +99,15 @@ const validationRules = {
             messageError: 'Merci de renseigner un nombre'
         }
     },
+    'radioLocations': {
+        require: {
+            required: true,
+            messageError: "Merci de choisir un lieu"
+        }
+    },
     'checkbox1': {
-        check: {
-            checked: true,
+        require: {
+            required: true,
             messageError: "Merci de cocher cette case"
         }
     }
@@ -114,20 +120,6 @@ modalBody.addEventListener('submit', function(event) {
         if (inputs[i].value == "") {
             inputs[i].parentElement.dataset.errorVisible = true;
             inputs[i].parentElement.dataset.error = "Merci de compléter ce champ";
-        }
-
-        if (inputs[i].type == "radio") {
-            if (inputs[i].checked) {
-                checkedRadio++;
-            }
-
-            if (checkedRadio > 0) {
-                inputs[i].parentElement.parentElement.dataset.errorVisible = false;
-                delete inputs[i].parentElement.parentElement.dataset.error;
-            } else {
-                inputs[i].parentElement.parentElement.dataset.errorVisible = true;
-                inputs[i].parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
-            }
         }
     }
 
@@ -155,6 +147,10 @@ modalBody.addEventListener('submit', function(event) {
             case 'quantity':
                 checkMinMaxNumber(quantity);
                 checkRegex(quantity);
+                break;
+
+            case 'radioLocations':
+                checkCheckedRadio(radioLocations);
                 break;
 
             case 'checkbox1':
@@ -261,17 +257,39 @@ function getCompleteMonth(month) {
 function checkChecked(element) {
     if (!element.checked) {
         element.parentElement.parentElement.dataset.errorVisible = true;
-        element.parentElement.parentElement.dataset.error = validationRules[element.id].check.messageError;
+        element.parentElement.parentElement.dataset.error = validationRules[element.id].require.messageError;
     } else {
         element.parentElement.parentElement.dataset.errorVisible = false;
         delete element.parentElement.parentElement.dataset.error;
     }
 }
 
+function checkCheckedRadio(element) {
+    let check = 0;
+    for (let i = 0; i < element.children.length; i++) {
+        let elementChild = element.children[i].children;
+        Object.values(elementChild).forEach(value => {
+            if (value.tagName == "INPUT") {
+                if (value.checked) {
+                    check++;
+                }
+            }
+        });
+    }
+    if (check == 0) {
+        console.log("Not checked");
+        element.dataset.errorVisible = true;
+        element.dataset.error = validationRules[element.id].require.messageError;
+    } else {
+        console.log("Checked");
+        element.dataset.errorVisible = false;
+        delete element.dataset.error;
+    }
+}
+
 function launchConfirmation() {
     modalBody.style.display = "none";
     confirmationContent.style.display = "flex";
-    // validation = 0;
     error = 0;
     document.reserve.reset();
 }
