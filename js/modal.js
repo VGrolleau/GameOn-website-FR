@@ -50,6 +50,10 @@ function closeModal() {
 
 const validationRules = {
     'first': {
+        require: {
+            required: "true",
+            messageError: "Merci de compléter ce champ"
+        },
         minLength: {
             min: 2,
             messageError: "Le prénom doit faire minimum 2 caractères."
@@ -57,7 +61,7 @@ const validationRules = {
         regex: {
             match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
             messageError: 'Le prénom ne doit contenir que des lettres, et commencer par une majuscule.'
-        }
+        },
     },
     'last': {
         minLength: {
@@ -67,12 +71,20 @@ const validationRules = {
         regex: {
             match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
             messageError: 'Le nom ne doit contenir que des lettres, et commencer par une majuscule.'
+        },
+        require: {
+            required: true,
+            messageError: "Merci de compléter ce champ"
         }
     },
     'email': {
         regex: {
             match: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
             messageError: 'Merci de renseigner un email valide.'
+        },
+        require: {
+            required: true,
+            messageError: "Merci de compléter ce champ"
         }
     },
     'birthdate': {
@@ -83,6 +95,10 @@ const validationRules = {
         regex: {
             match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/,
             messageError: 'Merci de renseigner une date valide'
+        },
+        require: {
+            required: true,
+            messageError: "Merci de compléter ce champ"
         }
     },
     'quantity': {
@@ -97,6 +113,10 @@ const validationRules = {
         regex: {
             match: /^([0-99])$/,
             messageError: 'Merci de renseigner un nombre'
+        },
+        require: {
+            required: true,
+            messageError: "Merci de compléter ce champ"
         }
     },
     'radioLocations': {
@@ -116,12 +136,6 @@ const validationRules = {
 // function validate
 modalBody.addEventListener('submit', function(event) {
     event.preventDefault();
-    for (let i = 0; i < inputs.length; i++) {
-        if (inputs[i].value == "") {
-            inputs[i].parentElement.dataset.errorVisible = true;
-            inputs[i].parentElement.dataset.error = "Merci de compléter ce champ";
-        }
-    }
 
     for (let firstRule in validationRules) {
         switch (firstRule) {
@@ -162,28 +176,37 @@ modalBody.addEventListener('submit', function(event) {
         }
     }
 
-    if (checkedRadio > 0 && error === 0) {
+    if (error === 0) {
         launchConfirmation()
+    } else {
+        error = 0;
     }
 });
 
 function checkMinlength(element) {
+    let errorMinlength = 0;
     element.minLength = validationRules[element.id].minLength.min;
-    if (!element.value.length || element.value.length < element.minLength) {
-        error++;
+
+    if (element.value.length < element.minLength) {
+        errorMinlength++;
         element.parentElement.dataset.errorVisible = true;
         element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
     } else {
+        errorMinlength = 0;
         element.parentElement.dataset.errorVisible = false;
         delete element.parentElement.dataset.error;
     }
+
+    error += errorMinlength;
 }
 
 function checkMinMaxNumber(element) {
+    let errorMinMax = 0;
     element.min = validationRules[element.id].minNumber.min;
     element.max = validationRules[element.id].maxNumber.max;
+
     if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
-        error++;
+        errorMinMax++;
         element.parentElement.dataset.errorVisible = true;
 
         if (Number(element.value) < Number(element.min)) {
@@ -194,38 +217,53 @@ function checkMinMaxNumber(element) {
             element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
         }
     } else {
+        errorMinMax = 0;
         element.parentElement.dataset.errorVisible = false;
         delete element.parentElement.dataset.error;
     }
+
+    error += errorMinMax;
 }
 
 function checkRegex(element) {
+    let errorRegex = 0;
     if (element.value != "") {
         let validationMatch = validationRules[element.id].regex.match;
 
         if (!validationMatch.test(element.value)) {
+            errorRegex++;
             element.parentElement.dataset.errorVisible = true;
             element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
-            error++;
         } else {
+            errorRegex = 0
             element.parentElement.dataset.errorVisible = false;
             delete element.parentElement.dataset.error;
         }
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+        checkRequire(element);
     }
+
+    error += errorRegex;
 }
 
 function checkMaxDate(element) {
+    let errorMaxDate = 0;
     let dateChoice = element.value.split('-').join('');
     let dateMax = element.max.split('-').join('');
 
     if (dateChoice > dateMax) {
+        errorMaxDate++;
         element.parentElement.dataset.errorVisible = true;
         element.parentElement.dataset.error = validationRules[element.id].maxDate.messageError;
-        error++;
     } else {
+        errorMaxDate = 0;
         element.parentElement.dataset.errorVisible = false;
         delete element.parentElement.dataset.error;
     }
+
+    error += errorMaxDate;
 }
 
 function setMaxDate() {
@@ -255,17 +293,22 @@ function getCompleteMonth(month) {
 }
 
 function checkChecked(element) {
+    let errorCheck = 0;
     if (!element.checked) {
+        errorCheck++;
         element.parentElement.parentElement.dataset.errorVisible = true;
         element.parentElement.parentElement.dataset.error = validationRules[element.id].require.messageError;
     } else {
+        errorCheck = 0;
         element.parentElement.parentElement.dataset.errorVisible = false;
         delete element.parentElement.parentElement.dataset.error;
     }
+    error += errorCheck;
 }
 
 function checkCheckedRadio(element) {
     let check = 0;
+    let errorCheckRadio = 0;
     for (let i = 0; i < element.children.length; i++) {
         let elementChild = element.children[i].children;
         Object.values(elementChild).forEach(value => {
@@ -277,14 +320,32 @@ function checkCheckedRadio(element) {
         });
     }
     if (check == 0) {
-        console.log("Not checked");
+        errorCheckRadio++;
         element.dataset.errorVisible = true;
         element.dataset.error = validationRules[element.id].require.messageError;
     } else {
-        console.log("Checked");
+        errorCheckRadio = 0;
         element.dataset.errorVisible = false;
         delete element.dataset.error;
     }
+
+    error += errorCheckRadio;
+}
+
+function checkRequire(element) {
+    let errorRequire = 0;
+    element.required = validationRules[element.id].require.required;
+    if (element.value == "") {
+        errorRequire++;
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].require.messageError;
+    } else {
+        errorRequire = 0;
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+    }
+
+    error += errorRequire;
 }
 
 function launchConfirmation() {
