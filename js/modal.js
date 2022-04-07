@@ -1,15 +1,12 @@
 function showResponsiveMenu() {
     let menu = document.getElementById("topnav_responsive_menu");
     let icon = document.getElementById("topnav_hamburger_icon");
-    let rootId = document.getElementById("rootId");
     if (menu.className === "") {
         menu.className = "open";
         icon.className = "open";
-        rootId.style.overflowY = "hidden";
     } else {
         menu.className = "";
         icon.className = "";
-        rootId.style.overflowY = "";
     }
 }
 
@@ -31,8 +28,6 @@ const checkboxCGU = document.getElementById("checkbox1");
 const radioInputs = document.querySelectorAll(".radio-input");
 const checkboxInputs = document.querySelectorAll(".checkbox-input");
 let error = 0;
-let validation = 0;
-const validationMax = 7;
 const inputs = document.getElementsByTagName('input');
 let checkedRadio = 0;
 
@@ -46,19 +41,6 @@ function launchModal() {
     confirmationContent.style.display = "none";
     birthdate.max = setMaxDate();
     document.getElementById("checkbox1").required = true;
-
-    // first.addEventListener('change', onChangeValue);
-    // last.addEventListener('change', onChangeValue);
-    // email.addEventListener('change', onChangeValue);
-    // birthdate.addEventListener('change', onChangeValue);
-    // quantity.addEventListener('change', onChangeValue);
-
-    // radioInputs.forEach(radioInput => {
-    //     radioInput.addEventListener('change', verifCheck);
-    // });
-    // checkboxInputs.forEach(checkboxInput => {
-    //     checkboxInput.addEventListener('change', verifCheck);
-    // });
 }
 
 // function close
@@ -117,24 +99,6 @@ const validationRules = {
             messageError: 'Merci de renseigner un nombre'
         }
     },
-    // 'location1': {
-    //     messageError: "Merci de choisir un lieu",
-    // },
-    // 'location2': {
-    //     messageError: "Merci de choisir un lieu",
-    // },
-    // 'location3': {
-    //     messageError: "Merci de choisir un lieu",
-    // },
-    // 'location4': {
-    //     messageError: "Merci de choisir un lieu",
-    // },
-    // 'location5': {
-    //     messageError: "Merci de choisir un lieu",
-    // },
-    // 'location6': {
-    //     messageError: "Merci de choisir un lieu",
-    // },
     'checkbox1': {
         check: {
             checked: true,
@@ -146,7 +110,6 @@ const validationRules = {
 // function validate
 modalBody.addEventListener('submit', function(event) {
     event.preventDefault();
-    // console.log(event.target);
     for (let i = 0; i < inputs.length; i++) {
         if (inputs[i].value == "") {
             inputs[i].parentElement.dataset.errorVisible = true;
@@ -166,68 +129,42 @@ modalBody.addEventListener('submit', function(event) {
                 inputs[i].parentElement.parentElement.dataset.error = "Merci de choisir un lieu";
             }
         }
-
-        for (let firstRule in validationRules) {
-            if (inputs[i].id == firstRule) {
-                switch (firstRule) {
-                    case 'first':
-                        checkMinlength(first);
-                        checkRegex(first);
-                        console.log("error first", error);
-                        break;
-
-                    case 'last':
-                        checkMinlength(last);
-                        checkRegex(last);
-                        console.log("error last", error);
-                        break;
-
-                    case 'email':
-                        checkRegex(email);
-                        console.log("error email", error);
-                        break;
-
-                    case 'birthdate':
-                        checkRegex(birthdate);
-                        checkMaxDate(birthdate);
-                        console.log("error birthdate", error);
-                        break;
-
-                    case 'quantity':
-                        checkMinMaxNumber(quantity);
-                        checkRegex(quantity);
-                        console.log("error quantity", error);
-                        break;
-
-                    case 'checkbox1':
-                        checkChecked(checkbox1);
-                        console.log("error checkbox1", error);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
     }
 
-    // for (let firstRule in validationRules) {
-    //     if (firstRule == "first") {
-    //         // console.log("firstRule ", firstRule, ":", validationRules[firstRule]);
-    //         for (let secondRule in validationRules[firstRule]) {
-    //             if (secondRule == "minLength") {
-    //                 console.log("secondRule ", secondRule, ":", validationRules[firstRule][secondRule]);
-    //                 console.error(validationRules[firstRule][secondRule].messageError)
-    //                     // for (const thirdRule in validationRules[firstRule][secondRule]) {
-    //                     //     console.log("thirdRule ", thirdRule, ":", validationRules[firstRule][secondRule][thirdRule]);
-    //                     // }
-    //             }
-    //         }
-    //     }
-    // }
+    for (let firstRule in validationRules) {
+        switch (firstRule) {
+            case 'first':
+                checkMinlength(first);
+                checkRegex(first);
+                break;
 
-    console.log("error submit", error);
-    console.log("checkedRadio", checkedRadio);
+            case 'last':
+                checkMinlength(last);
+                checkRegex(last);
+                break;
+
+            case 'email':
+                checkRegex(email);
+                break;
+
+            case 'birthdate':
+                checkRegex(birthdate);
+                checkMaxDate(birthdate);
+                break;
+
+            case 'quantity':
+                checkMinMaxNumber(quantity);
+                checkRegex(quantity);
+                break;
+
+            case 'checkbox1':
+                checkChecked(checkbox1);
+                break;
+
+            default:
+                break;
+        }
+    }
 
     if (checkedRadio > 0 && error === 0) {
         launchConfirmation()
@@ -274,23 +211,18 @@ function checkRegex(element) {
             element.parentElement.dataset.errorVisible = true;
             element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
             error++;
-            // validation += 0;
         } else {
             element.parentElement.dataset.errorVisible = false;
             delete element.parentElement.dataset.error;
-            // validation++;
         }
     }
 }
 
 function checkMaxDate(element) {
-    // element.max = validationRules[element.id].maxDate.max;
     let dateChoice = element.value.split('-').join('');
     let dateMax = element.max.split('-').join('');
-    console.log(dateChoice, dateMax);
 
     if (dateChoice > dateMax) {
-        // console.error("error");
         element.parentElement.dataset.errorVisible = true;
         element.parentElement.dataset.error = validationRules[element.id].maxDate.messageError;
         error++;
@@ -302,7 +234,6 @@ function checkMaxDate(element) {
 
 function setMaxDate() {
     let dateNow = new Date();
-    // console.log("dateNow : ", dateNow);
     let actualYear = dateNow.getFullYear();
     let actualMonth = dateNow.getMonth() + 1;
     let actualMonthComplete = getCompleteMonth(actualMonth);
@@ -328,7 +259,6 @@ function getCompleteMonth(month) {
 }
 
 function checkChecked(element) {
-    // if (event.target.id == "checkbox1") {
     if (!element.checked) {
         element.parentElement.parentElement.dataset.errorVisible = true;
         element.parentElement.parentElement.dataset.error = validationRules[element.id].check.messageError;
@@ -336,44 +266,7 @@ function checkChecked(element) {
         element.parentElement.parentElement.dataset.errorVisible = false;
         delete element.parentElement.parentElement.dataset.error;
     }
-    // }
 }
-
-// function onChangeValue(event) {
-//     if (event.target.id == "birthdate") {
-//         if (event.target.value != "") {
-//             validation++;
-//         }
-//     }
-
-//     let validationMatch = validationRules[event.target.id].match;
-
-//     if (!validationMatch.test(event.target.value)) {
-//         event.target.parentElement.dataset.errorVisible = true;
-//         event.target.parentElement.dataset.error = validationRules[event.target.id].messageError;
-//         validation += 0;
-//     } else {
-//         event.target.parentElement.dataset.errorVisible = false;
-//         delete event.target.parentElement.dataset.error;
-//         validation++;
-//     }
-// }
-
-// function verifCheck(event) {
-//     if (event.target.checked) {
-//         validation++;
-//     }
-
-//     if (event.target.id == "checkbox1") {
-//         if (!event.target.checked) {
-//             event.target.parentElement.parentElement.dataset.errorVisible = true;
-//             event.target.parentElement.parentElement.dataset.error = "Merci de cocher cette case";
-//         } else {
-//             event.target.parentElement.parentElement.dataset.errorVisible = false;
-//             delete event.target.parentElement.parentElement.dataset.error;
-//         }
-//     }
-// }
 
 function launchConfirmation() {
     modalBody.style.display = "none";
