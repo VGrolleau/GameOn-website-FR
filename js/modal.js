@@ -126,56 +126,42 @@ modalBody.addEventListener('submit', function(event) {
         }
     }
 
-    for (const [element, rules] of Object.entries(validationRules)) {
-        let domElement = document.getElementById(`${element}`);
+    for (let firstRule in validationRules) {
+        switch (firstRule) {
+            case 'first':
+                checkMinlength(first);
+                checkRegex(first);
+                break;
 
-        if ('minLength' in rules) {
-            checkMinlength(domElement, rules['minLength'].min);
-        }
-        if ('maxDate' in rules) {
-            checkMaxDate(domElement);
-        }
-        if ('minNumber' in rules && 'maxNumber' in rules) {
-            // console.log("Min max");
-            checkMinMaxNumber(domElement, rules['minNumber'].min, rules['maxNumber'].max);
-        }
-        if ('regex' in rules) {
-            checkRegex(domElement);
-        }
-        if ('require' in rules) {
-            checkRequire(domElement);
-        }
-        if ('checkRadio' in rules) {
-            checkCheckedRadio(domElement);
-            // console.log(rules.checkRadio);
-        }
-        if ('check' in rules) {
-            checkChecked(domElement);
-        }
-        if ('error' in rules && rules.error != null) {
-            domElement.parentElement.dataset.errorVisible = true;
-            domElement.parentElement.dataset.error = rules.error;
-        } else {
-            if ('check' in rules) {
-                console.log("check in rules");
-                domElement.parentElement.parentElement.dataset.errorVisible = false;
-                delete domElement.parentElement.parentElement.dataset.error;
-            } else if ('checkRadio' in rules) {
-                console.log("checkRadio in rules");
-                domElement.dataset.errorVisible = false;
-                delete domElement.dataset.error;
-            } else {
-                console.log(domElement);
-                domElement.parentElement.dataset.errorVisible = false;
-                delete domElement.parentElement.dataset.error;
-            }
-            // try {
-            //     console.log(domElement);
-            //     domElement.parentElement.dataset.errorVisible = false;
-            //     delete domElement.parentElement.dataset.error;
-            // } catch (e) {
-            //     console.log(e);
-            // }
+            case 'last':
+                checkMinlength(last);
+                checkRegex(last);
+                break;
+
+            case 'email':
+                checkRegex(email);
+                break;
+
+            case 'birthdate':
+                checkRegex(birthdate);
+                checkMaxDate(birthdate);
+                break;
+
+            case 'quantity':
+                checkMinMaxNumber(quantity);
+                checkRegex(quantity);
+                break;
+
+            case 'radioLocations':
+                checkCheckedRadio(radioLocations);
+                break;
+
+            case 'checkbox1':
+                checkChecked(checkbox1);
+                break;
+
+            default:
+                break;
         }
     }
 
