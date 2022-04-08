@@ -170,9 +170,26 @@ modalBody.addEventListener('submit', function(event) {
             domElement.parentElement.dataset.errorVisible = true;
             domElement.parentElement.dataset.error = rules.error;
         } else {
-            console.log(domElement);
-            domElement.parentElement.dataset.errorVisible = false;
-            delete domElement.parentElement.dataset.error;
+            if ('check' in rules) {
+                console.log("check in rules");
+                domElement.parentElement.parentElement.dataset.errorVisible = false;
+                delete domElement.parentElement.parentElement.dataset.error;
+            } else if ('checkRadio' in rules) {
+                console.log("checkRadio in rules");
+                domElement.dataset.errorVisible = false;
+                delete domElement.dataset.error;
+            } else {
+                console.log(domElement);
+                domElement.parentElement.dataset.errorVisible = false;
+                delete domElement.parentElement.dataset.error;
+            }
+            // try {
+            //     console.log(domElement);
+            //     domElement.parentElement.dataset.errorVisible = false;
+            //     delete domElement.parentElement.dataset.error;
+            // } catch (e) {
+            //     console.log(e);
+            // }
         }
     }
 
