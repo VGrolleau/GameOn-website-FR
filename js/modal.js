@@ -130,6 +130,27 @@ const validationRules = {
             required: true,
             messageError: "Merci de cocher cette case"
         }
+    },
+    // 'checkbox2': {
+    //     check: {
+    //         required: true,
+    //         messageError: ""
+    //     }
+    // },
+    // 'btnSubmit': {
+    //     click: {
+    //         required: false,
+    //         messageError: ""
+    //     }
+    // },
+    // 'formReserve': {
+    //     submit: {
+    //         required: false,
+    //         messageError: ""
+    //     }
+    // },
+    'error': {
+        error: null
     }
 }
 
@@ -177,29 +198,42 @@ modalBody.addEventListener('submit', function(event) {
     // }
 
     for (const [element, rules] of Object.entries(validationRules)) {
+        let domElement = document.getElementById(`${element}`);
+
         if ('minLength' in rules) {
-            checkMinlength(document.getElementById(`${element}`), rules['minLength'].min);
+            checkMinlength(domElement, rules['minLength'].min);
         }
         if ('maxDate' in rules) {
-            checkMaxDate(document.getElementById(`${element}`));
+            checkMaxDate(domElement);
         }
         if ('minNumber' in rules && 'maxNumber' in rules) {
             // console.log("Min max");
-            checkMinMaxNumber(document.getElementById(`${element}`), rules['minNumber'].min, rules['maxNumber'].max);
+            checkMinMaxNumber(domElement, rules['minNumber'].min, rules['maxNumber'].max);
         }
         if ('regex' in rules) {
-            checkRegex(document.getElementById(`${element}`));
+            checkRegex(domElement);
         }
         if ('require' in rules) {
-            checkRequire(document.getElementById(`${element}`));
+            checkRequire(domElement);
         }
         if ('checkRadio' in rules) {
-            checkCheckedRadio(document.getElementById(`${element}`));
+            checkCheckedRadio(domElement);
+            // console.log(rules.checkRadio);
         }
         if ('check' in rules) {
-            checkChecked(document.getElementById(`${element}`));
+            checkChecked(domElement);
+        }
+        if ('error' in rules && rules.error != null) {
+            domElement.parentElement.dataset.errorVisible = true;
+            domElement.parentElement.dataset.error = rules.error;
+        } else {
+            console.log(domElement);
+            domElement.parentElement.dataset.errorVisible = false;
+            delete domElement.parentElement.dataset.error;
         }
     }
+
+    console.log(error);
 
     if (error === 0) {
         launchConfirmation()
@@ -210,89 +244,118 @@ modalBody.addEventListener('submit', function(event) {
 
 // function checkMinlength(element) {
 function checkMinlength(element, min) {
-    let errorMinlength = 0;
+    // let errorMinlength = 0;
 
     if (element.value.length < min) {
-        errorMinlength++;
-        element.parentElement.dataset.errorVisible = true;
-        element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
-    } else {
-        errorMinlength = 0;
-        element.parentElement.dataset.errorVisible = false;
-        delete element.parentElement.dataset.error;
+        validationRules[element.id].error = validationRules[element.id].minLength.messageError;
     }
 
-    error += errorMinlength;
+    // if (element.value.length < min) {
+    //     errorMinlength++;
+    //     element.parentElement.dataset.errorVisible = true;
+    //     element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
+    // } else {
+    //     errorMinlength = 0;
+    //     element.parentElement.dataset.errorVisible = false;
+    //     delete element.parentElement.dataset.error;
+    // }
+
+    // error += errorMinlength;
 }
 
 // function checkMinMaxNumber(element) {
 function checkMinMaxNumber(element, min, max) {
-    let errorMinMax = 0;
+    // let errorMinMax = 0;
     // element.min = validationRules[element.id].minNumber.min;
     // element.max = validationRules[element.id].maxNumber.max;
 
-    // if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
-    if (!element.value.length || Number(element.value) < min || Number(element.value) > max) {
-        errorMinMax++;
-        element.parentElement.dataset.errorVisible = true;
-
-        // if (Number(element.value) < Number(element.min)) {
+    if (Number(element.value) < min || Number(element.value) > max) {
         if (Number(element.value) < min) {
-            element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
+            validationRules[element.id].error = validationRules[element.id].minNumber.messageError;
         }
 
-        // if (Number(element.value) > Number(element.max)) {
         if (Number(element.value) > max) {
-            element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
+            validationRules[element.id].error = validationRules[element.id].maxNumber.messageError;
         }
-    } else {
-        errorMinMax = 0;
-        element.parentElement.dataset.errorVisible = false;
-        delete element.parentElement.dataset.error;
     }
 
-    error += errorMinMax;
+    // if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
+    // if (Number(element.value) < min || Number(element.value) > max) {
+    //     // errorMinMax++;
+    //     // element.parentElement.dataset.errorVisible = true;
+
+    //     // if (Number(element.value) < Number(element.min)) {
+    //     if (Number(element.value) < min) {
+    //         // element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
+    //     }
+
+    //     // if (Number(element.value) > Number(element.max)) {
+    //     if (Number(element.value) > max) {
+    //         // element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
+    //     }
+    //     // } else {
+    //     //     errorMinMax = 0;
+    //     //     element.parentElement.dataset.errorVisible = false;
+    //     //     delete element.parentElement.dataset.error;
+    // }
+
+    // error += errorMinMax;
 }
 
 function checkRegex(element) {
-    let errorRegex = 0;
+    // let errorRegex = 0;
+
     if (element.value != "") {
         let validationMatch = validationRules[element.id].regex.match;
 
         if (!validationMatch.test(element.value)) {
-            errorRegex++;
-            element.parentElement.dataset.errorVisible = true;
-            element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
-        } else {
-            errorRegex = 0
-            element.parentElement.dataset.errorVisible = false;
-            delete element.parentElement.dataset.error;
+            validationRules[element.id].error = validationRules[element.id].regex.messageError;
         }
     } else {
-        element.parentElement.dataset.errorVisible = false;
-        delete element.parentElement.dataset.error;
         checkRequire(element);
     }
 
-    error += errorRegex;
+    // if (element.value != "") {
+    //     let validationMatch = validationRules[element.id].regex.match;
+
+    //     if (!validationMatch.test(element.value)) {
+    //         errorRegex++;
+    //         element.parentElement.dataset.errorVisible = true;
+    //         element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
+    //     } else {
+    //         errorRegex = 0
+    //         element.parentElement.dataset.errorVisible = false;
+    //         delete element.parentElement.dataset.error;
+    //     }
+    // } else {
+    //     element.parentElement.dataset.errorVisible = false;
+    //     delete element.parentElement.dataset.error;
+    //     checkRequire(element);
+    // }
+
+    // error += errorRegex;
 }
 
 function checkMaxDate(element) {
-    let errorMaxDate = 0;
+    // let errorMaxDate = 0;
     let dateChoice = element.value.split('-').join('');
     let dateMax = element.max.split('-').join('');
 
     if (dateChoice > dateMax) {
-        errorMaxDate++;
-        element.parentElement.dataset.errorVisible = true;
-        element.parentElement.dataset.error = validationRules[element.id].maxDate.messageError;
-    } else {
-        errorMaxDate = 0;
-        element.parentElement.dataset.errorVisible = false;
-        delete element.parentElement.dataset.error;
+        validationRules[element.id].error = validationRules[element.id].maxDate.messageError;
     }
 
-    error += errorMaxDate;
+    // if (dateChoice > dateMax) {
+    //     errorMaxDate++;
+    //     element.parentElement.dataset.errorVisible = true;
+    //     element.parentElement.dataset.error = validationRules[element.id].maxDate.messageError;
+    // } else {
+    //     errorMaxDate = 0;
+    //     element.parentElement.dataset.errorVisible = false;
+    //     delete element.parentElement.dataset.error;
+    // }
+
+    // error += errorMaxDate;
 }
 
 function setMaxDate() {
@@ -322,22 +385,25 @@ function getCompleteMonth(month) {
 }
 
 function checkChecked(element) {
-    let errorCheck = 0;
+    // let errorCheck = 0;
     if (!element.checked) {
-        errorCheck++;
-        element.parentElement.parentElement.dataset.errorVisible = true;
-        element.parentElement.parentElement.dataset.error = validationRules[element.id].check.messageError;
-    } else {
-        errorCheck = 0;
-        element.parentElement.parentElement.dataset.errorVisible = false;
-        delete element.parentElement.parentElement.dataset.error;
+        validationRules[element.id].error = validationRules[element.id].check.messageError;
     }
-    error += errorCheck;
+    // if (!element.checked) {
+    //     errorCheck++;
+    //     element.parentElement.parentElement.dataset.errorVisible = true;
+    //     element.parentElement.parentElement.dataset.error = validationRules[element.id].check.messageError;
+    // } else {
+    //     errorCheck = 0;
+    //     element.parentElement.parentElement.dataset.errorVisible = false;
+    //     delete element.parentElement.parentElement.dataset.error;
+    // }
+    // error += errorCheck;
 }
 
 function checkCheckedRadio(element) {
     let check = 0;
-    let errorCheckRadio = 0;
+    // let errorCheckRadio = 0;
     for (let i = 0; i < element.children.length; i++) {
         let elementChild = element.children[i].children;
         Object.values(elementChild).forEach(value => {
@@ -348,33 +414,43 @@ function checkCheckedRadio(element) {
             }
         });
     }
+
     if (check == 0) {
-        errorCheckRadio++;
-        element.dataset.errorVisible = true;
-        element.dataset.error = validationRules[element.id].checkRadio.messageError;
-    } else {
-        errorCheckRadio = 0;
-        element.dataset.errorVisible = false;
-        delete element.dataset.error;
+        validationRules[element.id].error = validationRules[element.id].checkRadio.messageError;
     }
 
-    error += errorCheckRadio;
+    // if (check == 0) {
+    //     errorCheckRadio++;
+    //     element.dataset.errorVisible = true;
+    //     element.dataset.error = validationRules[element.id].checkRadio.messageError;
+    // } else {
+    //     errorCheckRadio = 0;
+    //     element.dataset.errorVisible = false;
+    //     delete element.dataset.error;
+    // }
+
+    // error += errorCheckRadio;
 }
 
 function checkRequire(element) {
-    let errorRequire = 0;
+    // let errorRequire = 0;
     element.required = validationRules[element.id].require.required;
+
     if (element.value == "") {
-        errorRequire++;
-        element.parentElement.dataset.errorVisible = true;
-        element.parentElement.dataset.error = validationRules[element.id].require.messageError;
-    } else {
-        errorRequire = 0;
-        element.parentElement.dataset.errorVisible = false;
-        delete element.parentElement.dataset.error;
+        validationRules[element.id].error = validationRules[element.id].require.messageError;
     }
 
-    error += errorRequire;
+    // if (element.value == "") {
+    //     errorRequire++;
+    //     element.parentElement.dataset.errorVisible = true;
+    //     element.parentElement.dataset.error = validationRules[element.id].require.messageError;
+    // } else {
+    //     errorRequire = 0;
+    //     element.parentElement.dataset.errorVisible = false;
+    //     delete element.parentElement.dataset.error;
+    // }
+
+    // error += errorRequire;
 }
 
 function launchConfirmation() {
