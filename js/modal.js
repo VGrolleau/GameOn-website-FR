@@ -50,6 +50,10 @@ function closeModal() {
 
 const validationRules = {
     'first': {
+        require: {
+            required: "true",
+            messageError: "Merci de compléter ce champ"
+        },
         minLength: {
             min: 2,
             messageError: "Le prénom doit faire minimum 2 caractères."
@@ -57,10 +61,6 @@ const validationRules = {
         regex: {
             match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
             messageError: 'Le prénom ne doit contenir que des lettres, et commencer par une majuscule.'
-        },
-        require: {
-            required: "true",
-            messageError: "Merci de compléter ce champ"
         },
     },
     'last': {
@@ -120,19 +120,16 @@ const validationRules = {
         }
     },
     'radioLocations': {
-        checkRadio: {
+        require: {
             required: true,
             messageError: "Merci de choisir un lieu"
         }
     },
     'checkbox1': {
-        check: {
+        require: {
             required: true,
             messageError: "Merci de cocher cette case"
         }
-    },
-    'error': {
-        error: null
     }
 }
 
@@ -140,60 +137,44 @@ const validationRules = {
 modalBody.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    for (const [element, rules] of Object.entries(validationRules)) {
-        let domElement = document.getElementById(`${element}`);
+    for (let firstRule in validationRules) {
+        switch (firstRule) {
+            case 'first':
+                checkMinlength(first);
+                checkRegex(first);
+                break;
 
-        if ('minLength' in rules) {
-            checkMinlength(domElement, rules['minLength'].min);
-        }
-        if ('maxDate' in rules) {
-            checkMaxDate(domElement);
-        }
-        if ('minNumber' in rules && 'maxNumber' in rules) {
-            // console.log("Min max");
-            checkMinMaxNumber(domElement, rules['minNumber'].min, rules['maxNumber'].max);
-        }
-        if ('regex' in rules) {
-            checkRegex(domElement);
-        }
-        if ('require' in rules) {
-            checkRequire(domElement);
-        }
-        if ('checkRadio' in rules) {
-            checkCheckedRadio(domElement);
-            // console.log(rules.checkRadio);
-        }
-        if ('check' in rules) {
-            checkChecked(domElement);
-        }
-        if ('error' in rules && rules.error != null) {
-            domElement.parentElement.dataset.errorVisible = true;
-            domElement.parentElement.dataset.error = rules.error;
-        } else {
-            if ('check' in rules) {
-                console.log("check in rules");
-                domElement.parentElement.parentElement.dataset.errorVisible = false;
-                delete domElement.parentElement.parentElement.dataset.error;
-            } else if ('checkRadio' in rules) {
-                console.log("checkRadio in rules");
-                domElement.dataset.errorVisible = false;
-                delete domElement.dataset.error;
-            } else {
-                console.log(domElement);
-                domElement.parentElement.dataset.errorVisible = false;
-                delete domElement.parentElement.dataset.error;
-            }
-            // try {
-            //     console.log(domElement);
-            //     domElement.parentElement.dataset.errorVisible = false;
-            //     delete domElement.parentElement.dataset.error;
-            // } catch (e) {
-            //     console.log(e);
-            // }
+            case 'last':
+                checkMinlength(last);
+                checkRegex(last);
+                break;
+
+            case 'email':
+                checkRegex(email);
+                break;
+
+            case 'birthdate':
+                checkRegex(birthdate);
+                checkMaxDate(birthdate);
+                break;
+
+            case 'quantity':
+                checkMinMaxNumber(quantity);
+                checkRegex(quantity);
+                break;
+
+            case 'radioLocations':
+                checkCheckedRadio(radioLocations);
+                break;
+
+            case 'checkbox1':
+                checkChecked(checkbox1);
+                break;
+
+            default:
+                break;
         }
     }
-
-    console.log(error);
 
     if (error === 0) {
         launchConfirmation()
@@ -202,43 +183,87 @@ modalBody.addEventListener('submit', function(event) {
     }
 });
 
-function checkMinlength(element, min) {
-    if (element.value.length < min) {
-        validationRules[element.id].error = validationRules[element.id].minLength.messageError;
+function checkMinlength(element) {
+    let errorMinlength = 0;
+    element.minLength = validationRules[element.id].minLength.min;
+
+    if (element.value.length < element.minLength) {
+        errorMinlength++;
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
+    } else {
+        errorMinlength = 0;
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
     }
+
+    error += errorMinlength;
 }
 
-function checkMinMaxNumber(element, min, max) {
-    if (Number(element.value) < min || Number(element.value) > max) {
-        if (Number(element.value) < min) {
-            validationRules[element.id].error = validationRules[element.id].minNumber.messageError;
+function checkMinMaxNumber(element) {
+    let errorMinMax = 0;
+    element.min = validationRules[element.id].minNumber.min;
+    element.max = validationRules[element.id].maxNumber.max;
+
+    if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
+        errorMinMax++;
+        element.parentElement.dataset.errorVisible = true;
+
+        if (Number(element.value) < Number(element.min)) {
+            element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
         }
 
-        if (Number(element.value) > max) {
-            validationRules[element.id].error = validationRules[element.id].maxNumber.messageError;
+        if (Number(element.value) > Number(element.max)) {
+            element.parentElement.dataset.error = validationRules[element.id].maxNumber.messageError;
         }
+    } else {
+        errorMinMax = 0;
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
     }
+
+    error += errorMinMax;
 }
 
 function checkRegex(element) {
+    let errorRegex = 0;
     if (element.value != "") {
         let validationMatch = validationRules[element.id].regex.match;
 
         if (!validationMatch.test(element.value)) {
-            validationRules[element.id].error = validationRules[element.id].regex.messageError;
+            errorRegex++;
+            element.parentElement.dataset.errorVisible = true;
+            element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
+        } else {
+            errorRegex = 0
+            element.parentElement.dataset.errorVisible = false;
+            delete element.parentElement.dataset.error;
         }
-        // } else {
-        //     checkRequire(element);
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+        checkRequire(element);
     }
+
+    error += errorRegex;
 }
 
 function checkMaxDate(element) {
+    let errorMaxDate = 0;
     let dateChoice = element.value.split('-').join('');
     let dateMax = element.max.split('-').join('');
 
     if (dateChoice > dateMax) {
-        validationRules[element.id].error = validationRules[element.id].maxDate.messageError;
+        errorMaxDate++;
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].maxDate.messageError;
+    } else {
+        errorMaxDate = 0;
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
     }
+
+    error += errorMaxDate;
 }
 
 function setMaxDate() {
@@ -268,13 +293,22 @@ function getCompleteMonth(month) {
 }
 
 function checkChecked(element) {
+    let errorCheck = 0;
     if (!element.checked) {
-        validationRules[element.id].error = validationRules[element.id].check.messageError;
+        errorCheck++;
+        element.parentElement.parentElement.dataset.errorVisible = true;
+        element.parentElement.parentElement.dataset.error = validationRules[element.id].require.messageError;
+    } else {
+        errorCheck = 0;
+        element.parentElement.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.parentElement.dataset.error;
     }
+    error += errorCheck;
 }
 
 function checkCheckedRadio(element) {
     let check = 0;
+    let errorCheckRadio = 0;
     for (let i = 0; i < element.children.length; i++) {
         let elementChild = element.children[i].children;
         Object.values(elementChild).forEach(value => {
@@ -285,18 +319,33 @@ function checkCheckedRadio(element) {
             }
         });
     }
-
     if (check == 0) {
-        validationRules[element.id].error = validationRules[element.id].checkRadio.messageError;
+        errorCheckRadio++;
+        element.dataset.errorVisible = true;
+        element.dataset.error = validationRules[element.id].require.messageError;
+    } else {
+        errorCheckRadio = 0;
+        element.dataset.errorVisible = false;
+        delete element.dataset.error;
     }
+
+    error += errorCheckRadio;
 }
 
 function checkRequire(element) {
+    let errorRequire = 0;
     element.required = validationRules[element.id].require.required;
-
     if (element.value == "") {
-        validationRules[element.id].error = validationRules[element.id].require.messageError;
+        errorRequire++;
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].require.messageError;
+    } else {
+        errorRequire = 0;
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
     }
+
+    error += errorRequire;
 }
 
 function launchConfirmation() {
