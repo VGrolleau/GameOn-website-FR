@@ -57,11 +57,15 @@ const validationRules = {
         regex: {
             match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
             messageError: 'Le prénom ne doit contenir que des lettres, et commencer par une majuscule.'
+<<<<<<< HEAD
         },
         require: {
             required: "true",
             messageError: "Merci de compléter ce champ"
         },
+=======
+        }
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
     },
     'last': {
         minLength: {
@@ -71,20 +75,12 @@ const validationRules = {
         regex: {
             match: /^([A-Z]{1})([aA-zZ\- ]{1,})$/,
             messageError: 'Le nom ne doit contenir que des lettres, et commencer par une majuscule.'
-        },
-        require: {
-            required: true,
-            messageError: "Merci de compléter ce champ"
         }
     },
     'email': {
         regex: {
             match: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/,
             messageError: 'Merci de renseigner un email valide.'
-        },
-        require: {
-            required: true,
-            messageError: "Merci de compléter ce champ"
         }
     },
     'birthdate': {
@@ -95,10 +91,6 @@ const validationRules = {
         regex: {
             match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/,
             messageError: 'Merci de renseigner une date valide'
-        },
-        require: {
-            required: true,
-            messageError: "Merci de compléter ce champ"
         }
     },
     'quantity': {
@@ -113,10 +105,6 @@ const validationRules = {
         regex: {
             match: /^([0-99])$/,
             messageError: 'Merci de renseigner un nombre'
-        },
-        require: {
-            required: true,
-            messageError: "Merci de compléter ce champ"
         }
     },
     'radioLocations': {
@@ -139,6 +127,12 @@ const validationRules = {
 // function validate
 modalBody.addEventListener('submit', function(event) {
     event.preventDefault();
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value == "") {
+            inputs[i].parentElement.dataset.errorVisible = true;
+            inputs[i].parentElement.dataset.error = "Merci de compléter ce champ";
+        }
+    }
 
     for (const [element, rules] of Object.entries(validationRules)) {
         let domElement = document.getElementById(`${element}`);
@@ -193,15 +187,18 @@ modalBody.addEventListener('submit', function(event) {
         }
     }
 
+<<<<<<< HEAD
     console.log(error);
 
     if (error === 0) {
+=======
+    if (checkedRadio > 0 && error === 0) {
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
         launchConfirmation()
-    } else {
-        error = 0;
     }
 });
 
+<<<<<<< HEAD
 function checkMinlength(element, min) {
     if (element.value.length < min) {
         validationRules[element.id].error = validationRules[element.id].minLength.messageError;
@@ -212,11 +209,40 @@ function checkMinMaxNumber(element, min, max) {
     if (Number(element.value) < min || Number(element.value) > max) {
         if (Number(element.value) < min) {
             validationRules[element.id].error = validationRules[element.id].minNumber.messageError;
+=======
+function checkMinlength(element) {
+    element.minLength = validationRules[element.id].minLength.min;
+    if (!element.value.length || element.value.length < element.minLength) {
+        error++;
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].minLength.messageError;
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+    }
+}
+
+function checkMinMaxNumber(element) {
+    element.min = validationRules[element.id].minNumber.min;
+    element.max = validationRules[element.id].maxNumber.max;
+    if (!element.value.length || Number(element.value) < Number(element.min) || Number(element.value) > Number(element.max)) {
+        error++;
+        element.parentElement.dataset.errorVisible = true;
+
+        if (Number(element.value) < Number(element.min)) {
+            element.parentElement.dataset.error = validationRules[element.id].minNumber.messageError;
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
         }
 
         if (Number(element.value) > max) {
             validationRules[element.id].error = validationRules[element.id].maxNumber.messageError;
         }
+<<<<<<< HEAD
+=======
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
     }
 }
 
@@ -225,10 +251,20 @@ function checkRegex(element) {
         let validationMatch = validationRules[element.id].regex.match;
 
         if (!validationMatch.test(element.value)) {
+<<<<<<< HEAD
             validationRules[element.id].error = validationRules[element.id].regex.messageError;
         }
         // } else {
         //     checkRequire(element);
+=======
+            element.parentElement.dataset.errorVisible = true;
+            element.parentElement.dataset.error = validationRules[element.id].regex.messageError;
+            error++;
+        } else {
+            element.parentElement.dataset.errorVisible = false;
+            delete element.parentElement.dataset.error;
+        }
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
     }
 }
 
@@ -237,7 +273,16 @@ function checkMaxDate(element) {
     let dateMax = element.max.split('-').join('');
 
     if (dateChoice > dateMax) {
+<<<<<<< HEAD
         validationRules[element.id].error = validationRules[element.id].maxDate.messageError;
+=======
+        element.parentElement.dataset.errorVisible = true;
+        element.parentElement.dataset.error = validationRules[element.id].maxDate.messageError;
+        error++;
+    } else {
+        element.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.dataset.error;
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
     }
 }
 
@@ -269,7 +314,15 @@ function getCompleteMonth(month) {
 
 function checkChecked(element) {
     if (!element.checked) {
+<<<<<<< HEAD
         validationRules[element.id].error = validationRules[element.id].check.messageError;
+=======
+        element.parentElement.parentElement.dataset.errorVisible = true;
+        element.parentElement.parentElement.dataset.error = validationRules[element.id].require.messageError;
+    } else {
+        element.parentElement.parentElement.dataset.errorVisible = false;
+        delete element.parentElement.parentElement.dataset.error;
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
     }
 }
 
@@ -285,6 +338,7 @@ function checkCheckedRadio(element) {
             }
         });
     }
+<<<<<<< HEAD
 
     if (check == 0) {
         validationRules[element.id].error = validationRules[element.id].checkRadio.messageError;
@@ -296,6 +350,16 @@ function checkRequire(element) {
 
     if (element.value == "") {
         validationRules[element.id].error = validationRules[element.id].require.messageError;
+=======
+    if (check == 0) {
+        console.log("Not checked");
+        element.dataset.errorVisible = true;
+        element.dataset.error = validationRules[element.id].require.messageError;
+    } else {
+        console.log("Checked");
+        element.dataset.errorVisible = false;
+        delete element.dataset.error;
+>>>>>>> parent of 6d29fdc (Fix flexibility check not empty value inputs problem)
     }
 }
 
