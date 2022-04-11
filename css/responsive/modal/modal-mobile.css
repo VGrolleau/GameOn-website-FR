@@ -68,7 +68,8 @@ input {
 
 /* ERRORS */
 
-.formData[data-error]::after,
+
+/* .formData[data-error]::after,
 .formRadio[data-error]::after {
     content: attr(data-error);
     font-size: 0.8em;
@@ -82,7 +83,8 @@ input {
 }
 
 .formData[data-error-visible="true"]::after,
-.formRadio[data-error-visible="true"]::after {
+.formRadio[data-error-visible="true"]::after,
+.checkboxDiv[data-error-visible="true"]::after {
     opacity: 1;
 }
 
@@ -95,4 +97,4 @@ input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
     color: red;
-}
+} */
