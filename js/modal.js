@@ -111,7 +111,7 @@ const validationRules = {
             messageError: 'Le nombre doit être au maximum 99'
         },
         regex: {
-            match: /^([0-99])$/,
+            match: /^([\-0-9])+$/,
             messageError: 'Merci de renseigner un nombre'
         },
         require: {
