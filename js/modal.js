@@ -90,7 +90,7 @@ const validationRules = {
     'birthdate': {
         maxDate: {
             max: setMaxDate(),
-            messageError: "La date de naissance ne peut être supérieure à la date actuelle."
+            messageError: "L'âge minimal requis est de 3 ans."
         },
         regex: {
             match: /^([0-9]{4}-[0-9]{2}-[0-9]{2})$/,
@@ -268,12 +268,12 @@ function checkMaxDate(element) {
 
 function setMaxDate() {
     let dateNow = new Date();
-    let actualYear = dateNow.getFullYear();
+    let yearMinusThree = dateNow.getFullYear() - 3;
     let actualMonth = dateNow.getMonth() + 1;
     let actualMonthComplete = getCompleteMonth(actualMonth);
     let actualDay = dateNow.getDate();
     let actualDayComplete = getCompleteDay(actualDay);
-    return `${actualYear}-${actualMonthComplete}-${actualDayComplete}`;
+    return `${yearMinusThree}-${actualMonthComplete}-${actualDayComplete}`;
 }
 
 function getCompleteDay(day) {
