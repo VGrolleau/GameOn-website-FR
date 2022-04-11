@@ -1,0 +1,25 @@
+/*** LANDING PAGE ***/
+
+
+/*** HEADER ***/
+
+nav {
+    width: 60%;
+}
+
+nav ul {
+    padding: 0;
+    text-align: right;
+}
+
+
+/*** MAIN ***/
+
+main {
+    padding: 20px 20px 55px;
+    background: rgb(35, 35, 35) no-repeat right/60% url("../../../assets/img/bg_img.jpg");
+}
+
+.hero-text {
+    margin: 50px 0;
+}

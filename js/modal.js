@@ -37,7 +37,7 @@ closeBtn.addEventListener('click', closeModal);
 // launch modal form
 function launchModal() {
     modalbg.style.display = "flex";
-    modalBody.style.display = "inline";
+    modalBody.style.display = "inline-block";
     confirmationContent.style.display = "none";
     birthdate.max = setMaxDate();
     document.getElementById("checkbox1").required = true;
